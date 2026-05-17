@@ -107,15 +107,6 @@ export default function HeroSection() {
 
               {/* Engineer Identity Card details */}
               <div className="w-full bg-card-elevated/65 rounded-xl border border-border/80 p-5 flex flex-col gap-4 font-mono">
-                {/* Live Status indicator bar */}
-                <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                  <span className="text-xs text-muted">SYSTEM TELEMETRY</span>
-                  <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-success-glow bg-success-glow/10 text-success text-[10px] font-bold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success animate-status-blink" />
-                    <span>STATUS: ACTIVE</span>
-                  </div>
-                </div>
-
                 {/* Identity fields */}
                 <div className="flex flex-col gap-3 text-xs">
                   <div className="flex justify-between gap-4 items-start">
