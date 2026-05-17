@@ -20,18 +20,18 @@
 }
 
 .light {
-  --background: #0B0F17; /* Dark by default as per request, but can toggle if needed */
-  --foreground: #F3F4F6;
-  --card: #111827;
-  --card-elevated: #1A2233;
-  --border: #263042;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-elevated: #F1F5F9;
+  --border: #E2E8F0;
   --primary: #4F7CFF;
-  --primary-hover: #7096FF;
-  --primary-glow: rgba(79, 124, 255, 0.15);
-  --success: #22C55E;
-  --success-glow: rgba(34, 197, 94, 0.2);
-  --warning: #F59E0B;
-  --muted: #94A3B8;
+  --primary-hover: #3B5EC2;
+  --primary-glow: rgba(79, 124, 255, 0.08);
+  --success: #16A34A;
+  --success-glow: rgba(22, 163, 74, 0.08);
+  --warning: #D97706;
+  --muted: #64748B;
 }
 
 @theme {
