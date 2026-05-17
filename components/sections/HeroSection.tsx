@@ -30,9 +30,6 @@ function ProfileIllustration() {
         </div>
       </div>
       
-      {/* Code corner frames */}
-      <div className="absolute top-2 left-2 font-mono text-[9px] text-primary/70 z-20 select-none drop-shadow-md">&lt;DEV&gt;</div>
-      <div className="absolute bottom-2 right-2 font-mono text-[9px] text-primary/70 z-20 select-none drop-shadow-md">&lt;/DEV&gt;</div>
     </div>
   );
 }
