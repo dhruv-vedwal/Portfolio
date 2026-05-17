@@ -1,0 +1,92 @@
+{
+  "personal": {
+    "name": "Dhruv Vedwal",
+    "email": "vedwaldhruv12@gmail.com",
+    "mobile": "8209490709",
+    "github": "https://github.com/dhruv-vedwal",
+    "linkedin": "https://www.linkedin.com/in/dhruv-vedwal-2473641b7/",
+    "leetcode": "https://leetcode.com/dhruvv12/",
+    "gfg": "https://auth.geeksforgeeks.org/user/vedwaldhruv12"
+  },
+  "experience": [
+    {
+      "version": "v2.0",
+      "company": "Smartsevak Technologies",
+      "location": "Jaipur, Rajasthan",
+      "role": "Senior Full Stack Developer",
+      "period": "May 2024 - Present",
+      "subtitle": "Product Engineering & Enterprise Backend Systems",
+      "description": "Architecting multi-role telehealth solutions, real-time analytics sync modules, event-driven call trackers, and automated marketing workflows handling bulk operations with high data reliability.",
+      "deliverables": [
+        "Built a multi-role telecare consultation platform (doctor/patient/moderator) using Next.js + Zoom SDK, increasing telehealth revenue by 18% and reducing no-shows by 40%.",
+        "Designed and integrated an external-dialer-based call tracker system using webhook-driven event ingestion, improving sales attribution accuracy by 12%.",
+        "Engineered an AI Audio Analytics system as an extension of the call tracker—auto-transcribing calls, generating AI summaries, and producing daily/monthly actionable insights for organizations.",
+        "Developed a real-time Live Chat system using Firebase, enabling agents to communicate instantly with leads/customers directly from the dashboard, with read receipts and multi-agent routing.",
+        "Implemented Redis caching for real-time lead filtering and instant retrieval, reducing dashboard load times by 70%.",
+        "Integrated WebSockets across leads, bookings, AI analytics, and call-flow modules to deliver real-time updates across the organization dashboard.",
+        "Built a fault-tolerant bulk import/export system using AWS SQS + Worker Threads, improving data processing throughput by 60%.",
+        "Built automated daily performance insights combining email reports with AI-generated WhatsApp summaries, improving client engagement and retention by 18%.",
+        "Developed an ad click-to-conversion attribution pipeline (Facebook/WhatsApp) using SQS + webhooks, increasing campaign ROI visibility by 20%.",
+        "Built medication adherence dashboard with OTP verification and cron-driven reminders, improving treatment compliance by 45% and driving a 25% user base increase.",
+        "Rebuilt WhatsApp Business API UI and onboarding flow to significantly reduce integration failures and onboarding time."
+      ]
+    },
+    {
+      "version": "v1.0",
+      "company": "Datansh Solutions",
+      "location": "Jaipur, Rajasthan",
+      "role": "Software Development Intern",
+      "period": "Aug 2021 - Sept 2021",
+      "subtitle": "Front-end & HRMS Development Foundations",
+      "description": "Engineered workflow automation interfaces and HRMS schemas, reducing manual administrative overhead and improving system search speeds.",
+      "deliverables": [
+        "Developed React.js interfaces and authentication flows for an internal HRMS platform. Enhanced workflow automation through low-code modules and reduced administrative overhead by 30%.",
+        "Improved SQL Server query efficiency and standardized schema practices, contributing to a 40% improvement in data retrieval operations."
+      ]
+    }
+  ],
+  "skills": {
+    "languages": ["JavaScript", "TypeScript", "C/C++"],
+    "frontend": ["React", "Next.js", "Redux", "Tanstack Query", "Chakra UI", "Material-UI", "Tailwind CSS"],
+    "backend": ["Node.js", "Express.js", "Socket.IO", "Firebase", "REST API"],
+    "databasesAndTools": ["MongoDB", "PostgreSQL", "Redis", "AWS (SES, SQS)", "Prisma", "Sequelize"],
+    "testing": ["Jest", "Mocha", "Chai"],
+    "professionalSkills": ["System design thinking", "product ownership", "cross-functional collaboration", "rapid prototyping"]
+  },
+  "projects": [
+    {
+      "title": "Sociopedia",
+      "description": "Full stack social platform using React.js, Node.js, Express.js, MongoDB, and Redux Toolkit with responsive Material UI-based design.",
+      "github": "https://github.com/dhruv-vedwal/Sociopedia"
+    },
+    {
+      "title": "Chit-Chat Connect",
+      "description": "Real-time chat application using React.js/Chakra UI with Node.js/Express.js backend and WebSocket-based communication for instant messaging and activity indicators.",
+      "github": "https://github.com/dhruv-vedwal/Chit-Chat-Connect"
+    }
+  ],
+  "achievements": [
+    {
+      "title": "Problem Solving",
+      "description": "Solved 400+ problems across coding platforms and maintained a 100+ day LeetCode streak."
+    },
+    {
+      "title": "Mentorship",
+      "description": "Guided 10+ students in securing internships and placements through hands-on project mentoring."
+    },
+    {
+      "title": "Certification",
+      "description": "Software Development Essentials Certificate from LinkedIn Learning.",
+      "link": "https://www.linkedin.com/learning/certificates/50dc89e0d1ce83e59d783eed4ee35c9fb0204db4609704c4a43b2d974352892f"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Global Institute of Technology",
+      "location": "Jaipur, Rajasthan",
+      "degree": "Bachelor of Technology in Computer Science (B.Tech CSE)",
+      "score": "CGPA: 7.77",
+      "period": "Oct. 2020 -- May 2024"
+    }
+  ]
+}
