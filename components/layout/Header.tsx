@@ -9,9 +9,9 @@ import { Menu, X, Sun, Moon, Terminal } from "lucide-react";
 
 const NAV_ITEMS = [
   { path: "/", label: "Home" },
+  { path: "/resume", label: "Timeline" },
   { path: "/systems", label: "Systems Explorer" },
   { path: "/engineering-notes", label: "Engineering Notes" },
-  { path: "/resume", label: "Timeline" },
   { path: "/contact", label: "Contact Portal" },
 ];
 
@@ -108,7 +108,7 @@ export default function Header() {
             href="/contact"
             className="relative overflow-hidden group px-5 py-2 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 transition-all cursor-pointer shadow-[0_0_15px_var(--primary-glow)] hover:shadow-[0_0_20px_rgba(79,124,255,0.3)] text-sm font-semibold tracking-wide text-foreground"
           >
-            <span className="relative z-10 flex items-center gap-1">Launch Portal <span className="group-hover:translate-x-1 transition-transform">→</span></span>
+            <span className="relative z-10 flex items-center gap-1">Contact Me <span className="group-hover:translate-x-1 transition-transform">→</span></span>
           </Link>
         </div>
 
@@ -186,7 +186,7 @@ export default function Header() {
                 href="/contact"
                 className="w-full text-center py-3 rounded-xl border border-primary/30 bg-primary/10 hover:bg-primary/20 transition-all font-semibold tracking-wide text-foreground shadow-[0_0_15px_var(--primary-glow)]"
               >
-                Launch Portal
+                Contact Me
               </Link>
             </motion.div>
           </motion.div>

@@ -117,30 +117,30 @@ export const IMPACT_METRICS: Metric[] = [
 export const CAPABILITIES: Capability[] = [
   {
     title: "Real-Time Systems",
-    subtitle: "High-Concurrancy Messaging",
+    subtitle: "High-Concurrency Messaging",
     description: "Designing sub-100ms data synchronization engines. Expert in state synchronization, active channel connections, typing status updates, and scalable presence channels.",
-    technologies: ["WebSockets", "Socket.io", "Redis Pub/Sub", "Server-Sent Events", "Firebase Realtime DB"],
+    technologies: ["Socket.io", "Firebase Realtime DB", "Redis Caching", "WebSockets", "REST APIs"],
     icon: "MessageSquareCode"
   },
   {
     title: "Event-Driven Backend",
     subtitle: "Asynchronous Pipelines",
     description: "Building decoupling event handlers, webhook receivers, retry handlers, and reliable queue processing. Experienced in ensuring system stability during massive spikes.",
-    technologies: ["Node.js", "BullMQ", "RabbitMQ", "Redis Cache", "Worker Clusters", "Dead Letter Queues"],
+    technologies: ["Node.js", "Express.js", "AWS SQS", "Worker Threads", "Redis Caching", "Webhooks"],
     icon: "Network"
   },
   {
     title: "AI Product Systems",
     subtitle: "Cognitive Automation Flows",
     description: "Integrating intelligent pipelines that perform raw audio ingestion, trigger chunked Speech-to-Text transcriptions, apply LLM sanitization, and output structured dashboard summaries.",
-    technologies: ["OpenAI API", "Whisper", "LangChain / AI Agents", "Structured JSON Schemas", "Vector Embeddings"],
+    technologies: ["OpenAI API", "Whisper API", "Structured AI Summaries", "WhatsApp API", "Node.js Workers"],
     icon: "Cpu"
   },
   {
     title: "Full Stack Product Delivery",
     subtitle: "User Centered Engineering",
     description: "Translating complex design blueprints into production-ready user interfaces. Linking solid databases with optimized APIs and fast server-side rendered screens.",
-    technologies: ["Next.js (App Router)", "TypeScript", "Tailwind CSS", "Prisma ORM", "PostgreSQL", "Docker", "AWS S3 / EC2"],
+    technologies: ["Next.js (App Router)", "TypeScript", "Tailwind CSS", "Prisma ORM", "Sequelize ORM", "PostgreSQL", "MongoDB"],
     icon: "Layers"
   }
 ];
@@ -149,160 +149,162 @@ export const CAPABILITIES: Capability[] = [
 export const SYSTEMS_DATA: SystemData[] = [
   {
     id: "ai-audio",
-    title: "AI Audio Analytics Pipeline",
-    description: "Automated transcription and AI-powered insights pipeline for high-volume audio call sessions, utilizing decoupled processing clusters.",
+    title: "AI Audio Analytics System",
+    description: "Webhook-driven call tracking & AI analytics platform that ingests raw audio, generates automated call transcripts, and extracts insights.",
     tag: "AI & Event Ingestion",
-    impact: "60% Ingestion Latency Reduction",
-    tech: ["Node.js", "BullMQ", "Whisper STT", "OpenAI GPT-4", "Redis Cache", "PostgreSQL"],
+    impact: "12% Sales Attribution | AI Insights",
+    tech: ["Node.js", "Express.js", "AWS SQS", "Whisper API", "OpenAI GPT-4", "PostgreSQL", "Redis"],
     nodes: [
       { id: "1", label: "Call Provider Webhook", type: "ingress", description: "Receives raw audio payloads and triggers session authentication.", x: 50, y: 150 },
-      { id: "2", label: "Event Ingress Gateway", type: "processing", description: "Validates headers, generates unique session hashes, and stores raw metadata.", x: 250, y: 150 },
-      { id: "3", label: "BullMQ Queue Dispatcher", type: "queue", description: "Pushes job metadata into a high-throughput Redis-backed queue. Configures delay intervals.", x: 450, y: 150 },
-      { id: "4", label: "Transcription Worker (Whisper)", type: "processing", description: "Consumes jobs, pulls raw audio streams, and chunks files for fast parallel Speech-to-Text.", x: 650, y: 50 },
-      { id: "5", label: "AI Summary Engine (GPT)", type: "processing", description: "Feeds full transcripts to LLM alongside tailored prompt templates for QA audits.", x: 650, y: 250 },
-      { id: "6", label: "Secure Data Persistence", type: "database", description: "Commits summaries, sentiment scores, and full timestamps to relational tables.", x: 880, y: 150 },
-      { id: "7", label: "Analytics Dashboard UI", type: "external", description: "Server-side renders real-time insights with automatic webhook updates.", x: 1080, y: 150 }
+      { id: "2", label: "Express.js Webhook Ingress", type: "processing", description: "Validates signatures, validates headers, and logs transaction metadata.", x: 250, y: 150 },
+      { id: "3", label: "AWS SQS Ingestion Queue", type: "queue", description: "Buffers incoming event streams to insulate downstream workers from load surges.", x: 450, y: 150 },
+      { id: "4", label: "Whisper Transcription Worker", type: "processing", description: "Consumes SQS messages, downloads audio streams, and transcribes speech-to-text.", x: 650, y: 50 },
+      { id: "5", label: "OpenAI GPT-4 Insights", type: "processing", description: "Feeds raw transcripts to LLM to extract structured summaries and sentiment analytics.", x: 650, y: 250 },
+      { id: "6", label: "PostgreSQL Database Store", type: "database", description: "Stores persistent audio logs, JSON summary payloads, and attribution metrics.", x: 880, y: 150 },
+      { id: "7", label: "Analytics Dashboard UI", type: "external", description: "Provides real-time analytics updates and visual call records via Next.js and Prisma.", x: 1080, y: 150 }
     ],
     edges: [
       { id: "e1-2", source: "1", target: "2", animated: true, label: "POST /webhook" },
-      { id: "e2-3", source: "2", target: "3", animated: true, label: "Enqueue payload" },
-      { id: "e3-4", source: "3", target: "4", animated: true, label: "Job A: STT Pipeline" },
-      { id: "e3-5", source: "3", target: "5", animated: true, label: "Job B: Extraction" },
+      { id: "e2-3", source: "2", target: "3", animated: true, label: "Push metadata" },
+      { id: "e3-4", source: "3", target: "4", animated: true, label: "Transcription job" },
+      { id: "e3-5", source: "3", target: "5", animated: true, label: "Summary job" },
       { id: "e4-6", source: "4", target: "6", animated: false, label: "Save transcript" },
       { id: "e5-6", source: "5", target: "6", animated: false, label: "Save summary" },
-      { id: "e6-7", source: "6", target: "7", animated: true, label: "Next.js SSR Cache" }
+      { id: "e6-7", source: "6", target: "7", animated: true, label: "Prisma Query" }
     ],
     narrative: {
-      problem: "We needed to transcribe and audit call logs automatically. Feeding multi-hour audio directly into a single processing cycle caused timeout failures, memory leaks, and high AI API expenses.",
-      decision: "I split the solution into an asynchronous pipeline. A light Node.js gateway validates hook payloads immediately and pushes jobs to BullMQ. Workhorses pull from this queue, chunk audio into 10-minute fragments, parallel-transcribe via Whisper, and assemble the script before feeding a structured prompt template to GPT-4.",
-      scaling: "At scale, raw server scaling is too slow. Instead, the Redis-backed queue isolates downstream worker failures. If transcribers experience spikes, jobs safely pool inside the queue without impacting webhook intake response times (which must complete under 200ms).",
-      failure: "Any failed jobs trigger an exponential backoff retry system. If a task fails three times, it enters a Dead Letter Queue (DLQ) for engineering analysis. Network-level HTTP failures are insulated via standard idempotency keys on every transaction.",
-      tradeoffs: "Using BullMQ on Redis was favored over AWS SQS because it offers sub-millisecond dispatch times and powerful job tracking features, which the product dashboard displays instantly.",
-      improvements: "I would incorporate localized vector caching (Pinecone/pgvector) to detect repeated audio scripts. This would bypass expensive LLM calls entirely for standardized system recordings."
+      problem: "Ingesting call audio files directly in single request cycles caused server timeouts and out-of-memory errors when processing multi-hour files during high traffic peaks.",
+      decision: "I split the solution into an asynchronous pipeline. A lightweight Express.js gateway validates hook signatures immediately, enqueues the session metadata in AWS SQS, and returns a fast 200 OK. Background workers pull from SQS to process audio streams, transcribe via Whisper, and use OpenAI GPT-4 to extract structured call summaries.",
+      scaling: "At scale, AWS SQS acts as a buffer that isolates downstream workers from traffic spikes. Webhook intake response times remain sub-200ms regardless of active transcription queue depth.",
+      failure: "Failed transcription tasks are insulated with exponential backoff and placed in an AWS SQS Dead Letter Queue (DLQ) for engineering analysis. Relational transaction integrity is enforced via PostgreSQL.",
+      tradeoffs: "We chose AWS SQS over local Redis queues to guarantee enterprise durability and leverage AWS's built-in message visibility timeouts and natively integrated DLQs.",
+      improvements: "I would incorporate localized caching of frequent caller transcripts to skip expensive OpenAI summaries for standard interactive voice response (IVR) call profiles."
     }
   },
   {
     id: "live-chat",
-    title: "Real-Time Live Chat Infrastructure",
-    description: "Sub-100ms customer support gateway matching incoming client messages to agent dashboards, backed by distributed connection handling.",
+    title: "Real-Time Live Chat Platform",
+    description: "Ultra-low latency customer support gateway connecting active clients to multi-agent dashboards with read receipts and active presence.",
     tag: "Real-time Connectivity",
-    impact: "Sub-100ms Delivery | 5,000+ Concurrent Websockets",
-    tech: ["Node.js", "Socket.io", "Redis Pub/Sub", "Next.js UI", "PostgreSQL"],
+    impact: "Sub-100ms Delivery | Multi-Agent Routing",
+    tech: ["Node.js", "Express.js", "Firebase Realtime DB", "Socket.io", "Redis", "React / Chakra UI"],
     nodes: [
-      { id: "1", label: "Client Chat Interface", type: "ingress", description: "Web-based React chat widget establishing persistent TCP/Websocket handshake.", x: 50, y: 150 },
-      { id: "2", label: "Load Balancer (Nginx)", type: "external", description: "Terminates SSL and routes WebSocket sessions using sticky IP sessions.", x: 250, y: 150 },
-      { id: "3", label: "Websocket Server Cluster", type: "processing", description: "Node.js websocket nodes managing active connections and heartbeat state.", x: 480, y: 150 },
-      { id: "4", label: "Redis Pub/Sub Bus", type: "queue", description: "Synchronizes chat events across detached WebSocket server nodes.", x: 700, y: 150 },
-      { id: "5", label: "Presence & Active Cache", type: "storage", description: "Redis Key-Value store managing user session tokens and active typing states.", x: 700, y: 300 },
-      { id: "6", label: "Message Store (PostgreSQL)", type: "database", description: "Durable persistence engine storing chat logs and indexing keywords.", x: 920, y: 150 }
+      { id: "1", label: "Client Chat Interface", type: "ingress", description: "React.js widget establishing persistent websocket sessions or direct Firebase sync.", x: 50, y: 150 },
+      { id: "2", label: "Express.js Socket.IO Nodes", type: "processing", description: "Node.js application nodes handling web socket connections and active heartbeats.", x: 250, y: 150 },
+      { id: "3", label: "Redis Presence & TTL Cache", type: "storage", description: "Stores session tokens, online availability, and active typing indicators.", x: 480, y: 50 },
+      { id: "4", label: "Firebase Realtime DB Sync", type: "storage", description: "Synchronizes message streams, delivery indicators, and read receipts instantly.", x: 480, y: 250 },
+      { id: "5", label: "MongoDB Conversation Store", type: "database", description: "Stores persistent conversation history, message archives, and offline logs.", x: 720, y: 150 },
+      { id: "6", label: "Support Agent Console", type: "external", description: "React-based admin console rendering active queues, analytics, and chats.", x: 940, y: 150 }
     ],
     edges: [
-      { id: "e1-2", source: "1", target: "2", animated: true, label: "WS Connection" },
-      { id: "e2-3", source: "2", target: "3", animated: true },
-      { id: "e3-4", source: "3", target: "4", animated: true, label: "Publish msg" },
-      { id: "e3-5", source: "3", target: "5", animated: false, label: "Heartbeat state" },
-      { id: "e4-6", source: "4", target: "6", animated: true, label: "Async persist" }
+      { id: "e1-2", source: "1", target: "2", animated: true, label: "WebSockets" },
+      { id: "e2-3", source: "2", target: "3", animated: false, label: "Heartbeat state" },
+      { id: "e1-4", source: "1", target: "4", animated: true, label: "Direct Sync" },
+      { id: "e2-5", source: "2", target: "5", animated: true, label: "Save history" },
+      { id: "e5-6", source: "5", target: "6", animated: true, label: "Real-time updates" }
     ],
     narrative: {
-      problem: "Delivering instant support chats on a single server node failed when load spiked. If a user connected to Node A and the agent was connected to Node B, messages were completely lost.",
-      decision: "I added a central Redis Pub/Sub adapter to sync event signals across our WebSocket servers. Regardless of which physical node a client joins, messages publish to the Redis bus, and the relevant server immediately relays it to the recipient.",
-      scaling: "Active client state (typing indicators, online flags) is kept entirely in Redis Key-Value stores with brief TTL values. This keeps our memory consumption on the WebSocket servers negligible.",
-      failure: "If a WebSocket server crashes, Nginx sticky routing instantly pushes clients to a healthy node. Active reconnect mechanics on the client fetch missing chat history since the last delivered ID from the Postgres replica, ensuring zero lost messages.",
-      tradeoffs: "We chose WebSockets over Server-Sent Events (SSE) because support agents require dual-way interaction (typing states, status updates) which is best done inside a single full-duplex socket channel.",
-      improvements: "I would transition the Node.js WebSocket layer to Bun or Go (Gorilla WebSocket) to drastically lower container memory usage and handle more concurrent connections per CPU core."
+      problem: "Traditional database polling for incoming customer support messages created extreme database query load, resulting in 5+ second message delivery delays.",
+      decision: "Architected a hybrid real-time structure combining Firebase and Socket.IO. Firebase manages instant message state and read receipts, while Node.js Socket.IO manages agent routing, presence status, and queue telemetry.",
+      scaling: "Kept ephemeral actions like typing indicators and online presence in a high-speed Redis cache with active TTLs, keeping the main database query load negligible.",
+      failure: "If the WebSocket connection drops, Socket.IO automatically reconnects and synchronizes missing local history with Firebase state, ensuring zero lost messages.",
+      tradeoffs: "Chose Firebase Realtime DB to offload live message synchronization, focusing server resources entirely on multi-agent routing logic.",
+      improvements: "I would unify all database storage into PostgreSQL with Sequelize to simplify data schema consistency and relational analytics reporting."
     }
   },
   {
     id: "telecare",
-    title: "Telecare Platforms & Scheduling",
-    description: "Highly-secure, HIPAA-compliant patient dashboard mapping consultations, scheduling rules, and automated notification engines.",
-    tag: "Healthcare Tech & Compliancy",
-    impact: "40% Appointment No-Show Reduction",
-    tech: ["Next.js", "Node.js WebRTC", "Redis Queue", "Twilio API", "PostgreSQL"],
+    title: "Telehealth & Zoom Scheduling",
+    description: "HIPAA-compliant patient/doctor scheduling portal that automates appointment workflows, handles secure video links, and fires text/OTP alerts.",
+    tag: "Clinical Web & Integration",
+    impact: "40% No-Show Reduction | 45% Adherence",
+    tech: ["Next.js", "Node.js", "Express.js", "Zoom SDK", "Twilio SMS/OTP", "PostgreSQL", "Redis"],
     nodes: [
-      { id: "1", label: "Patient App Interface", type: "ingress", description: "Mobile/Web portal for appointments booking and video calls.", x: 50, y: 50 },
-      { id: "2", label: "Doctor Portal App", type: "ingress", description: "Dashboard for clinical notes, prescription generation, and session launching.", x: 50, y: 250 },
-      { id: "3", label: "Core API & Booking Engine", type: "processing", description: "Validates scheduling slots, coordinates clinician calendars, and prevents double bookings.", x: 300, y: 150 },
-      { id: "4", label: "WebRTC Video Gateway", type: "external", description: "HIPAA-compliant video bridge managing secure doctor-patient video feeds.", x: 550, y: 50 },
-      { id: "5", label: "Twilio Notifications Worker", type: "processing", description: "Pulls notification jobs from the queue to dispatch SMS and email reminders.", x: 550, y: 250 },
-      { id: "6", label: "Compliant DB Engine", type: "database", description: "AES-256 encrypted database storing logs, health stats, and session records.", x: 800, y: 150 }
+      { id: "1", label: "Patient Booking Portal", type: "ingress", description: "Next.js forms for patient appointment booking and doctor discovery.", x: 50, y: 50 },
+      { id: "2", label: "Doctor Consultation App", type: "ingress", description: "Next.js admin console managing slots and clinical histories.", x: 50, y: 250 },
+      { id: "3", label: "Next.js Core Scheduling", type: "processing", description: "Orchestrates appointment availability rules and prevents slot conflicts.", x: 300, y: 150 },
+      { id: "4", label: "Zoom Embedded Video SDK", type: "external", description: "Provides private, secure video consultation rooms directly within the dashboard.", x: 550, y: 50 },
+      { id: "5", label: "Twilio SMS & OTP Worker", type: "processing", description: "Dispatches verification codes and automated text reminders.", x: 550, y: 250 },
+      { id: "6", label: "Redis Notification Queue", type: "queue", description: "Schedules automated alert reminders at precise time intervals.", x: 300, y: 350 },
+      { id: "7", label: "PostgreSQL Database (Prisma)", type: "database", description: "Stores encrypted health data, user profiles, and schedules.", x: 800, y: 150 }
     ],
     edges: [
-      { id: "e1-3", source: "1", target: "3", animated: true, label: "Request slot" },
-      { id: "e2-3", source: "2", target: "3", animated: true },
-      { id: "e3-4", source: "3", target: "4", animated: true, label: "Token exchange" },
-      { id: "e3-5", source: "3", target: "5", animated: true, label: "Schedule alerts" },
-      { id: "e3-6", source: "3", target: "6", animated: false }
+      { id: "e1-3", source: "1", target: "3", animated: true, label: "Book slot" },
+      { id: "e2-3", source: "2", target: "3", animated: true, label: "Start session" },
+      { id: "e3-4", source: "3", target: "4", animated: true, label: "Video token" },
+      { id: "e3-6", source: "3", target: "6", animated: true, label: "Queue alerts" },
+      { id: "e6-5", source: "6", target: "5", animated: true, label: "Trigger SMS" },
+      { id: "e3-7", source: "3", target: "7", animated: false, label: "Save schedule" }
     ],
     narrative: {
-      problem: "High patient no-show rates resulted in lost clinician time and schedule inefficiencies. Additionally, storing private consultations requires strict security compliance.",
-      decision: "I designed a smart booking engine that automatically handles time zones, calendar updates, and a highly responsive notification system. An automated Redis-backed queue handles alert reminders 24-hours, 1-hour, and 10-minutes prior to sessions, utilizing Twilio SMS and secure email links.",
-      scaling: "Video streams operate entirely peer-to-peer (WebRTC) backed by secure TURN/STUN servers, eliminating video data processing load on our core application instances.",
-      failure: "If the Twilio API faces outages, jobs fail back to the Redis queue with exponential retries. The database is encrypted at rest and in transit (AES-256) with detailed access logs to satisfy strict security standards.",
-      tradeoffs: "We implemented custom Twilio SMS reminder workers instead of simple cron jobs to ensure that high-volume message dispatches execute instantly and concurrently at precise trigger minutes.",
-      improvements: "I would integrate real-time browser WebSockets to automatically pop-up visual alerts on the active clinician's desktop when a patient enters the digital waiting room."
+      problem: "Missed telehealth appointments (no-shows) severely degraded clinic efficiency, while manual meeting creation wasted clinician hours.",
+      decision: "Integrated Next.js with the Zoom SDK to automate private room creations instantly. To combat no-shows, built a scheduling engine that queues SMS alerts in Redis, triggering automated text reminders via Twilio at 24-hour and 10-minute intervals.",
+      scaling: "Video traffic runs directly peer-to-peer via the Zoom client SDK, offloading processing load from core servers.",
+      failure: "Implemented OTP verification via Twilio to secure patient login credentials. Database transactions are isolated and fully encrypted.",
+      tradeoffs: "Used Twilio SMS instead of in-app notifications because text messages are far more effective for immediate mobile reminders.",
+      improvements: "I would transition notifications to WhatsApp Business API to leverage structured, rich media templates and interactive quick replies."
     }
   },
   {
     id: "attribution",
-    title: "Event-driven Conversion Attribution",
-    description: "Real-time analytics engine matching marketing campaigns with billing checkouts to compute exact ROI without data duplication.",
-    tag: "High-Volume Data Ingress",
-    impact: "18% Revenue Visibility Improvement",
-    tech: ["Kafka / RabbitMQ", "FastAPI Ingress", "Redis Cache", "ClickHouse / TimescaleDB"],
+    title: "Conversion Attribution Engine",
+    description: "Event-driven tracking pipeline that attributes Facebook/WhatsApp ad clicks directly to checkout sales, calculating ROI without data duplication.",
+    tag: "High-Volume Ingestion",
+    impact: "20% ROI Visibility | Zero Duplicate Checkouts",
+    tech: ["Node.js", "Express.js", "AWS SQS", "Facebook Marketing API", "PostgreSQL", "Redis Cache"],
     nodes: [
-      { id: "1", label: "Client Tracker SDK", type: "ingress", description: "Custom JS tracking code collecting UTM tokens and unique device fingerprints.", x: 50, y: 150 },
-      { id: "2", label: "Fast Ingress Gateway", type: "processing", description: "Highly optimized endpoint designed for raw event intake with sub-5ms return.", x: 260, y: 150 },
-      { id: "3", label: "Deduplication Cache", type: "storage", description: "Redis cluster storing event hashes to filter duplicate tracking events.", x: 480, y: 50 },
-      { id: "4", label: "Event Message Queue", type: "queue", description: "RabbitMQ/Kafka broker partitioning events for parallel consumption.", x: 480, y: 250 },
-      { id: "5", label: "Attribution Processor", type: "processing", description: "Worker matching checkout event IDs back to their first/last click campaign sources.", x: 700, y: 150 },
-      { id: "6", label: "Analytics Database", type: "database", description: "TimescaleDB instance optimized for high-volume time-series querying and aggregated reporting.", x: 920, y: 150 }
+      { id: "1", label: "Marketing Tracking SDK", type: "ingress", description: "Collects UTM campaign codes and unique client fingerprints on page loading.", x: 50, y: 150 },
+      { id: "2", label: "Express.js Ingress Gateway", type: "processing", description: "Fast webhook receiver executing raw event ingestion with sub-5ms latency.", x: 260, y: 150 },
+      { id: "3", label: "Redis Deduplication Cache", type: "storage", description: "Filters event hashes within a 60-second window to prevent duplicate counts.", x: 480, y: 50 },
+      { id: "4", label: "AWS SQS Attribution Queue", type: "queue", description: "Durable queue that ingests, partitions, and schedules conversion jobs.", x: 480, y: 250 },
+      { id: "5", label: "Attribution Match Engine", type: "processing", description: "Worker matching checkout signals back to original ad-click UTM sources.", x: 700, y: 150 },
+      { id: "6", label: "PostgreSQL Campaign Store", type: "database", description: "Persists aggregated ROI records and detailed campaign logs.", x: 920, y: 150 }
     ],
     edges: [
-      { id: "e1-2", source: "1", target: "2", animated: true, label: "HTTP Beacon" },
-      { id: "e2-3", source: "2", target: "3", animated: true, label: "Check unique" },
-      { id: "e2-4", source: "2", target: "4", animated: true, label: "Publish unique" },
-      { id: "e4-5", source: "4", target: "5", animated: true },
-      { id: "e5-6", source: "5", target: "6", animated: false, label: "Write ROI log" }
+      { id: "e1-2", source: "1", target: "2", animated: true, label: "Click payload" },
+      { id: "e2-3", source: "2", target: "3", animated: true, label: "Verify unique" },
+      { id: "e2-4", source: "2", target: "4", animated: true, label: "Enqueue conversion" },
+      { id: "e4-5", source: "4", target: "5", animated: true, label: "Match UTM" },
+      { id: "e5-6", source: "5", target: "6", animated: false, label: "Write ROI" }
     ],
     narrative: {
-      problem: "Marketing managers couldn't determine which specific ads drove sales. Duplicate conversion tracking beacons from page refreshes skewed analytics, leading to inaccurate budget allocations.",
-      decision: "I built a real-time event pipeline. Every client action generates a unique transaction fingerprint. The fast API gateway verifies this hash against a distributed Redis lookup table. Unique actions are enqueued into a message queue, where background workers match the transaction back to the initial landing UTM campaign.",
-      scaling: "The ClickHouse/Timescale database is highly optimized for append-only time-series writes. We use hyper-tables and pre-aggregated views, keeping queries fast even with tens of millions of records.",
-      failure: "If the attribution processor suffers a failure, raw event queues continue to safely pool input data. Once workers restart, they process the backlog sequentially, ensuring 100% data integrity and zero lost attribution logs.",
-      tradeoffs: "We chose message brokers (RabbitMQ) over simple HTTP writes to guarantee zero lost checkout signals. Writing directly to a relational database during flash-sales would saturate connection pools, slowing down checkout completion.",
-      improvements: "I would introduce an edge-computing gateway (Cloudflare Workers) to evaluate and deduplicate incoming events directly at the network edge, reducing core server bandwidth costs."
+      problem: "Double-counting checkout events from page refreshes skewed marketing campaign data, leading to incorrect budget decisions.",
+      decision: "Built a real-time attribution gateway. Every conversion action generates a unique transaction fingerprint. The Express.js gateway checks this against Redis cache to filter duplicates, then enqueues unique events into AWS SQS for processing and matching.",
+      scaling: "Using Redis as a key-value deduplication gate handles massive event surges with sub-millisecond lookup latency.",
+      failure: "If the main PostgreSQL database goes down, incoming conversions are safely held in SQS for up to 14 days, protecting valuable ad spend data from being lost.",
+      tradeoffs: "Used Redis for deduplication instead of standard database unique constraints to prevent heavy locking on Postgres tables during sales spikes.",
+      improvements: "I would move tracking SDK execution to edge scripts to block duplicate clicks before they reach the server."
     }
   },
   {
     id: "bulk-process",
-    title: "Bulk Import Ingestion Infrastructure",
-    description: "Robust asynchronous CSV data processor capable of parsing, validating, and persisting large datasets with real-time progress updates.",
+    title: "Bulk Import/Export Ingestion",
+    description: "Fault-tolerant asynchronous CSV processing system that parses, validates, and uploads large datasets using parallel threads.",
     tag: "Platform Infrastructure",
-    impact: "10x Ingestion Speedup | 50,000+ Rows/Sec",
-    tech: ["Next.js UI", "AWS S3", "BullMQ Queue", "Fast CSV Parser", "PostgreSQL"],
+    impact: "60% Throughput | 50,000+ Row Parsing",
+    tech: ["Next.js", "Node.js", "AWS SQS", "Worker Threads", "AWS S3", "PostgreSQL", "Prisma"],
     nodes: [
-      { id: "1", label: "Next.js UI File Upload", type: "ingress", description: "Selects file, validates extensions, and requests secure direct-upload link.", x: 50, y: 150 },
-      { id: "2", label: "S3 Ingestion Bucket", type: "storage", description: "Durable storage hosting raw CSV files. Emits file-upload creation events.", x: 260, y: 150 },
-      { id: "3", label: "CSV Splitting Engine", type: "processing", description: "Reads S3 streams in chunks, generating minor sub-files to prevent memory bloating.", x: 480, y: 150 },
-      { id: "4", label: "Bulk Job Queue (SQS/Bull)", type: "queue", description: "Handles distributed chunk assignments to worker nodes.", x: 700, y: 150 },
-      { id: "5", label: "Validation Workers", type: "processing", description: "Parallel processes validating row structures and checking database constraints.", x: 700, y: 300 },
-      { id: "6", label: "Bulk Database Copy", type: "database", description: "Executes ultra-fast bulk INSERT transactions via PostgreSQL COPY query.", x: 920, y: 150 }
+      { id: "1", label: "Dashboard Import UI", type: "ingress", description: "Selects files, performs local checks, and requests S3 direct upload tokens.", x: 50, y: 150 },
+      { id: "2", label: "AWS S3 Upload Bucket", type: "storage", description: "Secure, durable file storage hosting raw and parsed CSV data.", x: 260, y: 150 },
+      { id: "3", label: "S3 Stream Ingestion Engine", type: "processing", description: "Streams CSV raw files from S3 in lightweight memory batches to avoid OOM.", x: 480, y: 150 },
+      { id: "4", label: "AWS SQS Batch Queue", type: "queue", description: "Splits bulk spreadsheets into SQS batch tasks (1,000 rows each).", x: 700, y: 150 },
+      { id: "5", label: "Node.js Worker Threads", type: "processing", description: "Parallel multi-thread processes checking schemas and database constraints.", x: 700, y: 300 },
+      { id: "6", label: "PostgreSQL Database Store", type: "database", description: "Stores persistent records using high-performance batch insert statements.", x: 920, y: 150 }
     ],
     edges: [
-      { id: "e1-2", source: "1", target: "2", animated: true, label: "Presigned URL" },
-      { id: "e2-3", source: "2", target: "3", animated: true, label: "Read S3 Stream" },
-      { id: "e3-4", source: "3", target: "4", animated: true, label: "Publish chunks" },
-      { id: "e4-5", source: "4", target: "5", animated: true },
-      { id: "e5-6", source: "5", target: "6", animated: true, label: "Postgres COPY" }
+      { id: "e1-2", source: "1", target: "2", animated: true, label: "Direct S3 Upload" },
+      { id: "e2-3", source: "2", target: "3", animated: true, label: "Stream CSV" },
+      { id: "e3-4", source: "3", target: "4", animated: true, label: "Split 1k rows" },
+      { id: "e4-5", source: "4", target: "5", animated: true, label: "Parallel validate" },
+      { id: "e5-6", source: "5", target: "6", animated: true, label: "Batch COPY" }
     ],
     narrative: {
-      problem: "Users importing large CSV spreadsheets (50k+ rows) experienced HTTP timeouts and server out-of-memory errors because the backend attempted to parse and write the entire file inside a single request thread.",
-      decision: "I re-architected this into an asynchronous chunking process. The frontend uploads files directly to AWS S3 via presigned URLs. The server reads this stream, splits the CSV into 1,000-row chunks, enqueues each chunk as a separate task, and processes them concurrently across multiple workers.",
-      scaling: "Using the raw `COPY` command in PostgreSQL instead of ORM loops (Prisma `createMany`) bypassed ORM translation overhead, reducing database insertion times from minutes to seconds.",
-      failure: "If validation fails for specific rows, workers log error details to a specific session table in Postgres. The ingestion job continues to process other chunks, reporting detailed success/failure logs to the user rather than failing the entire file.",
-      tradeoffs: "We chose direct S3 uploads over standard multi-part HTTP forms because it routes network load away from application containers, ensuring the backend remains fast and responsive for other users.",
-      improvements: "I would add an SSE (Server-Sent Events) pipeline to push live, highly visual import progress indicators (e.g. 34% completed, 12 errors detected) directly to the user's dashboard."
+      problem: "Uploading large CSV files (50k+ rows) in single HTTP threads caused Out-of-Memory crashes and server timeouts.",
+      decision: "Designed an asynchronous, decoupled import architecture. The client uploads the CSV directly to S3. A Node.js backend streams the file from S3, splits it into 1,000-row chunks, and distributes them via AWS SQS to separate Worker Threads for parallel database insertion.",
+      scaling: "Distributing execution across Node.js Worker Threads prevents heavy parsing loads from locking the single-threaded event loop.",
+      failure: "Validation failures for specific rows are logged to a separate Postgres session log. The main process continues import, giving the user a downloadable list of failed rows.",
+      tradeoffs: "Uploading files directly to S3 routes network-heavy uploads away from Node.js servers, keeping the API fast and responsive.",
+      improvements: "I would add a Firebase-backed subscription stream to update the frontend progress bar (e.g., 45% parsed, 12 errors) in real time."
     }
   }
 ];

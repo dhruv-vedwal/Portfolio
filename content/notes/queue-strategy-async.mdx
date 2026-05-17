@@ -30,7 +30,7 @@ ASYNC CHUNKING INFRASTRUCTURE
                  (Distributed Enqueue)
                            ▼
 ┌──────────────┐    ┌──────────────┐
-│  BullMQ Queue │ ─► │ Worker Cluster│ ───► Parse, validate, and bulk copy in parallel
+│ AWS SQS Queue │ ─► │Worker Threads│ ───► Parse, validate, and bulk copy in parallel
 └──────────────┘    └──────────────┘
 ```
 
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 
 Once the file resides in S3, a server-side chunking engine reads the file as a stream (using S3's `GetObjectCommand` stream API), reading rows sequentially without loading the entire file into memory.
 
-The parser reads every **1,000 rows**, packages them, and enqueues them as a single job task:
+The parser reads every **1,000 rows**, packages them, and enqueues them as an AWS SQS message payload:
 
 ```typescript
 // Chunking loop inside import manager
@@ -79,11 +79,14 @@ for await (const row of csvParser) {
   chunkRows.push(row);
   
   if (chunkRows.length >= 1000) {
-    await importQueue.add("process-chunk", {
-      importId,
-      chunkIndex,
-      rows: chunkRows
-    });
+    await sqsClient.send(new SendMessageCommand({
+      QueueUrl: process.env.AWS_SQS_QUEUE_URL,
+      MessageBody: JSON.stringify({
+        importId,
+        chunkIndex,
+        rows: chunkRows
+      })
+    }));
     chunkRows = [];
     chunkIndex++;
   }
@@ -91,7 +94,10 @@ for await (const row of csvParser) {
 
 // Enqueue remaining rows
 if (chunkRows.length > 0) {
-  await importQueue.add("process-chunk", { importId, chunkIndex, rows: chunkRows });
+  await sqsClient.send(new SendMessageCommand({
+    QueueUrl: process.env.AWS_SQS_QUEUE_URL,
+    MessageBody: JSON.stringify({ importId, chunkIndex, rows: chunkRows })
+  }));
 }
 ```
 

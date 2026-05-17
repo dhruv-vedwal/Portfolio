@@ -49,9 +49,9 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-2.5 text-sm text-muted">
               <Link href="/" className="hover:text-foreground transition-colors">Home Page</Link>
+              <Link href="/resume" className="hover:text-foreground transition-colors">Release Timeline</Link>
               <Link href="/systems" className="hover:text-foreground transition-colors">Systems Explorer</Link>
               <Link href="/engineering-notes" className="hover:text-foreground transition-colors">Engineering Notes</Link>
-              <Link href="/resume" className="hover:text-foreground transition-colors">Release Timeline</Link>
             </div>
           </div>
 

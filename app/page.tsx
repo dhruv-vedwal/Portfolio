@@ -3,6 +3,7 @@ import Link from "next/link";
 import HeroSection from "@/components/sections/HeroSection";
 import ImpactMetrics from "@/components/sections/ImpactMetrics";
 import CapabilitySection from "@/components/sections/CapabilitySection";
+import FeaturedProjectsSection from "@/components/sections/FeaturedProjectsSection";
 import { Terminal, Send, ArrowRight } from "lucide-react";
 import { FadeIn } from "@/components/animations/FadeIn";
 
@@ -14,8 +15,8 @@ export default function HomePage() {
     "jobTitle": "Full Stack Product Engineer",
     "url": "https://dhruv.systems",
     "sameAs": [
-      "https://github.com",
-      "https://linkedin.com"
+      "https://github.com/dhruv-vedwal",
+      "https://www.linkedin.com/in/dhruv-vedwal-2473641b7/"
     ],
     "knowsAbout": [
       "Software Engineering",
@@ -26,7 +27,7 @@ export default function HomePage() {
       "Next.js",
       "Node.js",
       "WebSockets",
-      "BullMQ",
+      "AWS SQS",
       "TypeScript",
       "PostgreSQL"
     ]
@@ -47,7 +48,10 @@ export default function HomePage() {
       {/* 3. Engineering Core Capabilities */}
       <CapabilitySection />
 
-      {/* 4. Bottom System Promotion CTA Banner */}
+      {/* 4. Featured Software Projects */}
+      <FeaturedProjectsSection />
+
+      {/* 5. Bottom System Promotion CTA Banner */}
       <section className="py-20 bg-card/15 border-t border-b border-border relative overflow-hidden">
         {/* Decorative glows */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary-glow/5 via-transparent to-success-glow/5 opacity-80" />

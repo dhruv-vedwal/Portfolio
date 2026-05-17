@@ -45,7 +45,7 @@ export default function ImpactMetrics() {
 
           <FadeIn direction="up" delay={0.3}>
             <p className="text-muted mt-3 font-sans">
-              Direct, quantifiable business value and performance gains achieved through active systems optimization, backend re-architecture, and algorithmic pruning.
+              Real-world engineering translated into measurable business value, highlighting improvements in system reliability, speed, and overall operational efficiency.
             </p>
           </FadeIn>
         </div>
@@ -83,7 +83,7 @@ export default function ImpactMetrics() {
                   Latency Reduction Profile
                 </h3>
                 <p className="text-sm text-muted font-sans mt-2 leading-relaxed">
-                  Real measurements of critical server bottlenecks before and after refactoring key paths. Asynchronous worker task models and memory-efficient structures lowered overhead across the entire stack.
+                  Tracking key performance indicators before and after architectural improvements. By optimizing critical rendering paths and data flows, system overhead is significantly reduced.
                 </p>
               </div>
 

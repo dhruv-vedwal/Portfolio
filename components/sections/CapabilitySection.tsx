@@ -38,7 +38,7 @@ export default function CapabilitySection() {
 
             <FadeIn direction="up" delay={0.3}>
               <p className="text-muted mt-3 font-sans leading-relaxed">
-                Specialized in architecting decoupled processes, robust real-time synchronizations, and advanced automation layers. I design with full visibility into lifecycle trade-offs.
+                A comprehensive approach to software development, bridging the gap between sophisticated backend infrastructure and intuitive, responsive frontend interfaces.
               </p>
             </FadeIn>
           </div>
