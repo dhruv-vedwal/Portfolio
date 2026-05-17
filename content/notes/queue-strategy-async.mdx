@@ -1,0 +1,118 @@
+---
+title: "Queue Strategy for Asynchronous Bulk Processing"
+excerpt: "How to process 50k+ record imports without blocking HTTP threads. We walk through direct-to-S3 uploads, file chunking, and parallel worker queues."
+date: "2026-04-15"
+readTime: "8 min read"
+category: "Infrastructure"
+---
+
+A common source of backend out-of-memory (OOM) errors and API timeouts is **bulk data imports**. When a customer attempts to upload a spreadsheet containing 50,000 rows of user accounts or product catalogs, simple synchronous upload endpoints collapse under memory allocation overhead.
+
+This article reviews the architecture of an asynchronous import engine capable of parsing, validating, and committing hundreds of thousands of rows under constant memory envelopes.
+
+---
+
+### The Naive Approach vs. Async Chunking
+
+```txt
+NAIVE APPROACH (BLOCKING THREADS)
+  [Browser] ───► POST /api/upload (50MB file) ───► [API RAM] ───► [Prisma ORM Loop] ───► [DB Crash (Timeout)]
+
+ASYNC CHUNKING INFRASTRUCTURE
+                     [Browser]
+                         │
+      (Direct S3 Presigned URL Upload)
+                         ▼
+┌──────────────┐    ┌──────────────┐
+│  AWS S3 Bucket│ ─► │ Chunk Splitter│ ───► Stream & split into 1,000-row chunks
+└──────────────┘    └──────────────┘
+                           │
+                 (Distributed Enqueue)
+                           ▼
+┌──────────────┐    ┌──────────────┐
+│  BullMQ Queue │ ─► │ Worker Cluster│ ───► Parse, validate, and bulk copy in parallel
+└──────────────┘    └──────────────┘
+```
+
+---
+
+### 1. The Ingress: Presigned S3 Uploads
+
+**Never upload large files directly to your application containers.**
+
+If multiple users upload large spreadsheets simultaneously, your servers quickly saturate their network bandwidth and run out of disk space. Instead, have your API generate an AWS S3 presigned URL, allowing the client's browser to upload the file directly to S3:
+
+```typescript
+// Next.js API route to generate S3 presigned URL
+export async function POST(req: Request) {
+  const { fileName, fileType } = await req.json();
+  
+  const s3Params = {
+    Bucket: process.env.AWS_S3_BUCKET,
+    Key: `imports/${crypto.randomUUID()}-${fileName}`,
+    ContentType: fileType,
+    Expires: 300 // Link expires in 5 minutes
+  };
+
+  const uploadUrl = await getSignedUrl(s3Client, new PutObjectCommand(s3Params), { expiresIn: 300 });
+  return Response.json({ uploadUrl, fileKey: s3Params.Key });
+}
+```
+
+---
+
+### 2. Stream-based Chunking
+
+Once the file resides in S3, a server-side chunking engine reads the file as a stream (using S3's `GetObjectCommand` stream API), reading rows sequentially without loading the entire file into memory.
+
+The parser reads every **1,000 rows**, packages them, and enqueues them as a single job task:
+
+```typescript
+// Chunking loop inside import manager
+const s3Stream = await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
+const csvParser = s3Stream.Body.pipe(csvParserStream());
+
+let chunkRows: any[] = [];
+let chunkIndex = 0;
+
+for await (const row of csvParser) {
+  chunkRows.push(row);
+  
+  if (chunkRows.length >= 1000) {
+    await importQueue.add("process-chunk", {
+      importId,
+      chunkIndex,
+      rows: chunkRows
+    });
+    chunkRows = [];
+    chunkIndex++;
+  }
+}
+
+// Enqueue remaining rows
+if (chunkRows.length > 0) {
+  await importQueue.add("process-chunk", { importId, chunkIndex, rows: chunkRows });
+}
+```
+
+---
+
+### 3. Parallel Worker Processing
+
+Workers pull these 1,000-row chunks from the queue. Isolating processing to 1,000-row envelopes yields three major performance benefits:
+1. **Low Memory Footprint**: A worker's memory footprint is capped at the size of 1,000 rows, allowing you to run multiple concurrent workers on cheap, single-core containers.
+2. **Speed**: Multiple workers process distinct chunks in parallel, reducing processing times from minutes to seconds.
+3. **Database Efficiency**: Workers use Postgres' fast `COPY` or raw bulk inserts rather than slow ORM iteration loops. This achieves database write speeds of **50,000+ rows per second**.
+
+---
+
+### 4. Resilient Error Strategy
+
+When a bulk import encounters validation errors, crashing the entire upload is a terrible user experience.
+
+* **Row-Level Tracking**: Validate rows individually inside the worker. If row 42 lacks an email, write an error record to a database log table and continue processing the remaining 999 rows.
+* **Aggregated Reporting**: Once all chunks complete, present the user with a summary: *"Import complete. 48,500 records imported, 1,500 rows failed validation. Click here to download a CSV containing the failed rows and their corresponding errors."*
+
+### Summary
+
+Asynchronous bulk processing transforms an unstable, memory-heavy operation into a highly robust and scalable background utility. By combining S3 direct uploads, streaming chunk parsers, and parallel worker queues, your application handles huge datasets effortlessly while remaining fast and responsive for active users.

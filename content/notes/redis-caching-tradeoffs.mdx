@@ -1,0 +1,119 @@
+---
+title: "Redis Caching: Tradeoffs, Cache Invalidation, and Mitigating Dogpiling"
+excerpt: "Caching is not free. We examine the core complexities of Cache-Aside, Write-Through patterns, Cache Stampedes, and building resilient fallbacks."
+date: "2026-02-10"
+readTime: "11 min read"
+category: "Database Tuning"
+---
+
+Adding a cache (like Redis) is the go-to prescription for slow database queries. It is a powerful tool: reading from memory takes sub-milliseconds, easily handling thousands of queries per second.
+
+However, **caching is not free**. Introducing a cache introduces distributed state, synchronization challenges, and cache invalidation complexity.
+
+This article reviews the strict technical tradeoffs of caching architectures, cache invalidation strategies, and how to protect your database from **Cache Stampedes (Dogpiling)**.
+
+---
+
+### The Complexities of Distributed State
+
+```txt
+┌────────┐            ┌────────┐            ┌────────┐
+│ Client │ ─────────► │ Cache  │ ─────────► │ Primary│
+│ (User) │ ◄───────── │(Memory)│ ◄───────── │ Database│
+└────────┘            └────────┘            └────────┘
+                          │                      │
+                   (Cache Expired)        (Writes Out of Sync)
+                          │                      │
+                          ▼                      ▼
+               [Potential Data Drift / Stale Reads]
+```
+
+---
+
+### 1. Cache-Aside vs. Write-Through: Choosing Your Flow
+
+How your application interacts with the cache during writes determines its architectural complexity:
+
+#### Cache-Aside (Lazy Loading)
+* **How it works**: The app attempts to read from the cache. On a cache miss, it reads from the DB, writes the result to the cache, and returns it. On database writes, the app simply evicts (deletes) the cached key.
+* **Trade-off**: Simple to implement, but initial reads always experience cache-miss latency.
+* **Risks**: Stale data window if a database write succeeds but the cache eviction fails.
+
+#### Write-Through
+* **How it works**: The application writes data to the cache first. The cache then immediately writes the data through to the primary database within the same transaction.
+* **Trade-off**: Cache is always in sync with the database, and read queries are extremely fast.
+* **Risks**: Write latency increases since writes must complete across both memory and disk layers.
+
+---
+
+### 2. Cache Invalidation: The Ultimate Challenge
+
+Phil Karlton famously noted: *"There are only two hard things in Computer Science: cache invalidation and naming things."*
+
+If you cache user profiles for 1 hour (`TTL = 3600`), and a user changes their username, other users will continue reading the old username from the cache for up to an hour.
+
+To resolve this, you must coordinate cache invalidations:
+* **Passive Eviction**: Setting short Time-to-Live (TTL) values. Simple, but guarantees stale data windows.
+* **Active Eviction**: Triggering cache evictions inside database hook models (such as Prisma middleware or Postgres triggers). Harder to maintain, but keeps cache and database perfectly aligned.
+
+---
+
+### 3. Mitigating Cache Stampedes (Dogpiling)
+
+A **Cache Stampede** occurs when a highly popular cache key (e.g., the site's homepage catalog) expires under heavy concurrent traffic:
+
+```txt
+┌──────────────┐   (Cache Miss)   ┌───────────────────┐
+│ 5,000 Users  │ ───────────────► │ Backing Database │ ──► DB Saturation & Crash
+│ Concurrent   │                  │ (Saturated Locks) │
+└──────────────┘                  └───────────────────┘
+```
+
+Because the key has expired, all 5,000 concurrent requests experience a cache miss simultaneously. They all query the primary database, saturating connections, triggering deadlocks, and crashing the backend.
+
+#### The Solution: Mutual Exclusion Locking (Mutex)
+
+To prevent stampedes, implement mutual exclusion locking. When a cache miss occurs, only the first request acquires a brief lock to query the database and update the cache. Other requests wait briefly and re-read from the cache:
+
+```typescript
+async function getCachedCatalog(key: string): Promise<CatalogData> {
+  let value = await redis.get(key);
+  
+  if (value) {
+    return JSON.parse(value);
+  }
+
+  // Cache Miss - Acquire distributed lock
+  const lockKey = `lock:${key}`;
+  const lockAcquired = await redis.set(lockKey, "locked", "EX", 5, "NX");
+
+  if (lockAcquired) {
+    try {
+      // Only 1 request queries the DB
+      const dbData = await queryCatalogFromDatabase();
+      
+      // Update cache and release lock
+      await redis.set(key, JSON.stringify(dbData), "EX", 300);
+      return dbData;
+    } finally {
+      await redis.del(lockKey);
+    }
+  } else {
+    // Other requests wait 100ms and retry reading cache
+    await delay(100);
+    return getCachedCatalog(key);
+  }
+}
+```
+
+---
+
+### Summary Guidelines
+
+1. **Only Cache Static or Hot Reads**: Caching highly dynamic, write-heavy data creates massive invalidation overhead and offers little performance gain.
+2. **Handle Cache Down Gracefully**: Ensure your application handles Redis outages gracefully by falling back directly to the primary database, utilizing concurrency throttles to prevent database saturation.
+3. **Always set a TTL**: Never store keys indefinitely. Active systems change, and memory resources are finite. Always configure explicit Time-to-Live values.
+
+### Conclusion
+
+Caching is a powerful optimization, but it introduces architectural complexity. By selecting the right loading pattern, coordinating active evictions, and implementing mutual exclusion locks to prevent stampedes, you build a resilient, high-speed caching tier that protects your primary databases and scales effortlessly.

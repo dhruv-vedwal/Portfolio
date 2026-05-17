@@ -1,26 +1,186 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0B0F17;
+  --foreground: #F3F4F6;
+  --card: #111827;
+  --card-elevated: #1A2233;
+  --border: #263042;
+  --primary: #4F7CFF;
+  --primary-hover: #7096FF;
+  --primary-glow: rgba(79, 124, 255, 0.15);
+  --success: #22C55E;
+  --success-glow: rgba(34, 197, 94, 0.2);
+  --warning: #F59E0B;
+  --muted: #94A3B8;
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
 }
 
-@theme inline {
+.light {
+  --background: #0B0F17; /* Dark by default as per request, but can toggle if needed */
+  --foreground: #F3F4F6;
+  --card: #111827;
+  --card-elevated: #1A2233;
+  --border: #263042;
+  --primary: #4F7CFF;
+  --primary-hover: #7096FF;
+  --primary-glow: rgba(79, 124, 255, 0.15);
+  --success: #22C55E;
+  --success-glow: rgba(34, 197, 94, 0.2);
+  --warning: #F59E0B;
+  --muted: #94A3B8;
+}
+
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-elevated: var(--card-elevated);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-glow: var(--primary-glow);
+  --color-success: var(--success);
+  --color-success-glow: var(--success-glow);
+  --color-warning: var(--warning);
+  --color-muted: var(--muted);
+  
+  --radius-xl: var(--radius-xl);
+  --radius-lg: var(--radius-lg);
+  --radius-md: var(--radius-md);
+  --radius-sm: var(--radius-sm);
+
+  --font-sans: "Inter", var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --animate-pulse-glow: pulse-glow 3s infinite ease-in-out;
+  --animate-status-blink: status-blink 2s infinite ease-in-out;
+  --animate-grid-move: grid-move 20s linear infinite;
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 15px var(--primary-glow);
+      border-color: var(--border);
+    }
+    50% {
+      box-shadow: 0 0 25px rgba(79, 124, 255, 0.35);
+      border-color: var(--primary);
+    }
+  }
+
+  @keyframes status-blink {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(0.9);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+      box-shadow: 0 0 10px var(--success);
+    }
+  }
+
+  @keyframes grid-move {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 40px 40px;
+    }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Global resets and structures */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom glowing grid background */
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(38, 48, 66, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(38, 48, 66, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.glow-overlay {
+  background: radial-gradient(circle 800px at 50% -200px, rgba(79, 124, 255, 0.08), transparent 80%);
+}
+
+/* Custom styled scrollbars for React Flow canvas */
+.react-flow__viewport {
+  cursor: grab;
+}
+.react-flow__viewport:active {
+  cursor: grabbing;
+}
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* React Flow customizations */
+.react-flow__node {
+  border-radius: 12px !important;
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--foreground) !important;
+  font-family: var(--font-sans) !important;
+  transition: all 0.3s ease !important;
+}
+
+.react-flow__node:hover {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 15px var(--primary-glow) !important;
+}
+
+.react-flow__edge-path {
+  stroke: var(--border) !important;
+  stroke-width: 2px !important;
+  transition: stroke 0.3s ease !important;
+}
+
+.react-flow__edge.active .react-flow__edge-path {
+  stroke: var(--primary) !important;
+  stroke-dasharray: 5;
+  animation: dash 10s linear infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }

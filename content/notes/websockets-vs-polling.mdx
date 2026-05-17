@@ -1,0 +1,104 @@
+---
+title: "Why WebSockets Over Polling: A Sub-100ms Tradeoff Analysis"
+excerpt: "An in-depth engineering review comparing short-polling, long-polling, and WebSockets. We analyze TCP socket overhead, thread consumption, and CPU performance at scale."
+date: "2026-05-12"
+readTime: "7 min read"
+category: "Real-Time Systems"
+---
+
+Establishing a persistent real-time messaging pipeline is a core requirement for collaborative product dashboards. However, EMs and architects frequently stumble when selecting a synchronization mechanic, falling back on simple HTTP polling due to initial setup simplicity.
+
+This article reviews the strict technical tradeoffs and performance implications of **HTTP Short Polling**, **HTTP Long Polling**, and **Full-Duplex WebSockets** when supporting large user sessions.
+
+---
+
+### The Telemetry Metrics
+
+```txt
+┌─────────────────────────────────┬──────────────────┬─────────────────┐
+│ Synchronisation Pipeline        │ Latency Target   │ Server Overhead │
+├─────────────────────────────────┼──────────────────┼─────────────────┤
+│ HTTP Short Polling (5s Interval)│ 2,500ms - 5,000ms│ Extremely High  │
+│ HTTP Long Polling               │ 300ms - 800ms    │ High            │
+│ WebSockets (Persistent TCP)     │ < 80ms           │ Very Low        │
+└─────────────────────────────────┴──────────────────┴─────────────────┘
+```
+
+---
+
+### 1. HTTP Short Polling: The Silent Connection Saturation
+
+In HTTP Short Polling, the client browser establishes a fresh connection on a rigid interval (e.g., every 2 to 5 seconds) to fetch updates:
+
+```txt
+Client                         Server
+  │                              │
+  ├─── GET /api/messages ───────>│  (TCP Handshake + SSL Overhead)
+  <─── Response (200 OK - Empty)─┤  (Close Connection)
+  │                              │
+  │  (Wait 3 seconds)            │
+  │                              │
+  ├─── GET /api/messages ───────>│  (TCP Handshake + SSL Overhead)
+  <─── Response (200 OK - Data) ─┤  (Close Connection)
+```
+
+#### The Performance Overhead:
+1. **TCP Three-Way Handshake & SSL Negotiation**: Every request must establish a fresh TCP link, introducing TLS/SSL handshake latency (150ms to 300ms roundtrip overhead).
+2. **HTTP Header Bloat**: A simple JSON payload of `{ "unread": 0 }` is roughly 15 bytes. However, standard HTTP headers (cookies, user-agents, tokens) average **800 to 1,500 bytes** per request. For 5,000 concurrent users polling every 3 seconds, this results in **~2.5 GB of raw network header bloat every minute**, wasting valuable server bandwidth.
+3. **Database Connection Churning**: Each poll triggers backend controller routing, authentication lookups, and DB checks, saturating database connection pools.
+
+---
+
+### 2. HTTP Long Polling: Decoupling, But Brittle
+
+HTTP Long Polling keeps the connection open until new data arrives or a timeout occurs, avoiding immediate short-polling loops:
+
+```txt
+Client                         Server
+  │                              │
+  ├─── GET /api/messages ───────>│  (Connection held open by server)
+  │   .                          │
+  │   . (Data arrives in queue)  │
+  <─── Response (200 OK - Data) ─┤  (Connection Closed)
+  │                              │
+  ├─── GET /api/messages ───────>│  (Instantly establish next poll)
+```
+
+#### The Architectural Issues:
+* **Memory Saturation**: Because the server holds connections open, each active client allocates a thread or socket buffer in the application runtime. Under high load, memory consumption scales linearly.
+* **Message Ringing**: If multiple messages arrive in quick succession, the connection is torn down and re-established continuously, causing a burst of TLS negotiations (a phenomenon known as connection ringing).
+
+---
+
+### 3. Full-Duplex WebSockets: Persistent Sub-100ms Sync
+
+WebSockets solve these bottlenecks by upgrading an initial HTTP request to a persistent, bidirectional TCP connection (RFC 6455):
+
+```txt
+Client                         Server
+  │                              │
+  ├─── GET /chat (Upgrade) ─────>│  (Single Handshake handshake)
+  <─── Response (101 Protocol) ──┤  (Connection established)
+  │                              │
+  │◄─── Full Duplex WS Frame ───►│  (Bi-directional, 2-byte frame overhead)
+  │◄─── Full Duplex WS Frame ───►│  (Sub-100ms delivery)
+```
+
+#### Why it Scales:
+1. **Zero Header Overhead**: Once connected, WebSockets transmit data in raw frames. Frame headers are minimal (**2 to 10 bytes**), compared to 1,500 bytes for HTTP headers.
+2. **True Server-Push**: The backend pushes alerts directly as they happen, eliminating database polling and achieving sub-100ms delivery times.
+3. **State Management**: Keeping connections active on the WebSocket server allows direct client state tracking (such as active typing indicators and instant presence channels) in an in-memory key-value cache (Redis) without polluting relational database tables.
+
+---
+
+### Engineering Tradeoffs
+
+While WebSockets are highly performant, they introduce unique engineering challenges:
+
+* **Sticky Sessions / Load Balancers**: Because clients maintain long-lived TCP connections, standard load balancers must be configured for sticky IP routing or round-robin connection limits to avoid overloading a single server node.
+* **Active Heartbeats & Ping/Pong**: Clients must periodically exchange ping/pong frames to detect silent network drops and clean up stale connections.
+* **Redis Pub/Sub Syncing**: To scale horizontally across multiple servers, you must run a Redis Pub/Sub adapter to sync and distribute chat messages between disconnected application instances.
+
+### The Verdict
+
+For simple, slow dashboard widgets, **short polling** is adequate. However, for collaborative workspaces, multi-user tools, and modern support chats, **WebSockets** coupled with a fast in-memory Pub/Sub cache are mandatory to achieve a responsive, low-latency user experience.
