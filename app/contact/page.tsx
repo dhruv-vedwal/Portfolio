@@ -7,7 +7,7 @@ import * as z from "zod";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { FadeIn } from "@/components/animations/FadeIn";
-import { Send, ShieldCheck, Mail, CheckCircle2, RefreshCw, ServerCrash } from "lucide-react";
+import { Send, Mail, CheckCircle2, RefreshCw, ServerCrash } from "lucide-react";
 
 // Form Zod Schema
 const contactSchema = z.object({
@@ -78,197 +78,213 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="py-12 sm:py-16 md:py-20 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-76px)] flex items-center justify-center py-6 sm:py-10 relative overflow-hidden">
       {/* Background radial visual effects */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 w-[500px] h-[500px] bg-primary-glow blur-[150px] rounded-full opacity-10 pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-glow blur-[160px] rounded-full opacity-10 pointer-events-none" />
 
-      <div className="max-w-xl mx-auto px-6 relative z-10">
-        {/* Title panel */}
-        <div className="text-left mb-10">
-          <FadeIn direction="up" delay={0.1}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary-glow text-xs text-primary font-semibold uppercase tracking-wider mb-3">
-              <Mail className="w-3.5 h-3.5" />
-              <span>Contact Portal Ingress</span>
-            </div>
-          </FadeIn>
-
-          <FadeIn direction="up" delay={0.2}>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-sans">
-              Connect With Me
-            </h1>
-          </FadeIn>
-
-          <FadeIn direction="up" delay={0.3}>
-            <p className="text-sm sm:text-base text-muted font-sans mt-3 leading-relaxed">
-              Have an open role, collaboration idea, or complex engineering problem? Submit a secure portal ticket below. I will respond to your request within 24 hours.
-            </p>
-          </FadeIn>
-        </div>
-
-        {/* Dynamic Display: Form vs Success Card vs Error */}
-        <FadeIn direction="none" delay={0.4} duration={0.6}>
-          {submitResult?.success ? (
-            /* Gorgeous Ingress Success Ticket Card */
-            <Card className="border border-success/40 bg-card p-8 shadow-[0_0_20px_var(--success-glow)] text-center flex flex-col items-center gap-6">
-              <div className="w-12 h-12 rounded-full bg-success/15 border-2 border-success flex items-center justify-center text-success animate-bounce">
-                <CheckCircle2 className="w-6 h-6" />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <span className="font-mono text-[10px] text-success font-bold tracking-widest uppercase">
-                  TICKET ENQUEUED SUCCESSFULLY
-                </span>
-                <CardTitle className="text-2xl font-extrabold text-foreground font-sans">
-                  Support Request Logged
-                </CardTitle>
-              </div>
-
-              {/* Support ticket credentials details */}
-              <div className="w-full bg-card-elevated/75 border border-border rounded-xl p-5 text-left font-mono text-xs flex flex-col gap-3">
-                <div className="flex justify-between border-b border-border/40 pb-2">
-                  <span className="text-muted">TICKET REFERENCE:</span>
-                  <span className="text-success font-bold">{submitResult.ticketId}</span>
+      <div className="max-w-6xl w-full mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-center animate-fade-in">
+          
+          {/* Left Column: Rich Info Panel */}
+          <div className="md:col-span-5 flex flex-col gap-6 text-left">
+            <div className="flex flex-col gap-3">
+              <FadeIn direction="up" delay={0.1}>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary-glow text-[10px] font-bold text-primary tracking-widest uppercase w-fit mb-1">
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>Get In Touch</span>
                 </div>
-                <div className="flex justify-between border-b border-border/40 pb-2">
-                  <span className="text-muted">TIMESTAMP:</span>
-                  <span className="text-foreground">{new Date(submitResult.timestamp!).toLocaleTimeString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted">DISPATCH QUEUE:</span>
-                  <span className="text-primary font-bold">BULL-MQ-CONTACTS</span>
-                </div>
-                
-                <p className="text-[10px] text-muted leading-relaxed font-sans mt-2 pt-2 border-t border-border/40">
-                  Your request has been successfully buffered in my backend event streams. A secure webhook notification has been dispatched to my inbox. Thank you!
+              </FadeIn>
+
+              <FadeIn direction="up" delay={0.2}>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground font-sans leading-[1.1]">
+                  Connect <br className="hidden md:inline" />
+                  With Me
+                </h1>
+              </FadeIn>
+
+              <FadeIn direction="up" delay={0.3}>
+                <p className="text-sm sm:text-base text-muted font-sans leading-relaxed max-w-sm mt-1">
+                  Have an open role, collaboration idea, or complex engineering problem? Drop a message. I will respond to your request within 24 hours.
                 </p>
-              </div>
+              </FadeIn>
+            </div>
+          </div>
 
-              <Button
-                variant="outline"
-                onClick={() => setSubmitResult(null)}
-                className="w-full mt-2 font-mono text-xs"
-              >
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Create Another Ticket
-              </Button>
-            </Card>
-          ) : (
-            /* Operational Support Form */
-            <Card className="border border-border p-6 sm:p-8 bg-card/20 backdrop-blur-sm relative overflow-hidden">
-              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 text-left">
-                {/* Name */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" className="text-xs font-bold text-foreground font-sans">
-                    YOUR NAME
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Enter your name"
-                    {...register("name")}
-                    className={`px-4 py-3 rounded-xl bg-card-elevated border text-sm text-foreground placeholder:text-muted/60 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all ${
-                      errors.name ? "border-red-500/60" : "border-border/120"
-                    }`}
-                  />
-                  {errors.name && (
-                    <span className="text-[10px] text-red-500 font-mono font-semibold">
-                      * {errors.name.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Email */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="text-xs font-bold text-foreground font-sans">
-                    EMAIL ADDRESS
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="name@company.com"
-                    {...register("email")}
-                    className={`px-4 py-3 rounded-xl bg-card-elevated border text-sm text-foreground placeholder:text-muted/60 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all ${
-                      errors.email ? "border-red-500/60" : "border-border/120"
-                    }`}
-                  />
-                  {errors.email && (
-                    <span className="text-[10px] text-red-500 font-mono font-semibold">
-                      * {errors.email.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Reason Dropdown */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="reason" className="text-xs font-bold text-foreground font-sans">
-                    INQUIRY REASON
-                  </label>
-                  <select
-                    id="reason"
-                    {...register("reason")}
-                    className={`px-4 py-3 rounded-xl bg-card-elevated border text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all cursor-pointer ${
-                      errors.reason ? "border-red-500/60" : "border-border/120"
-                    }`}
-                  >
-                    <option value="Hiring Opportunity">Hiring Opportunity (Full-Time / Contract)</option>
-                    <option value="Collaboration">Collaboration (Open Source / Startup)</option>
-                    <option value="Consulting">Consulting (Architecture Audit / Scaling)</option>
-                    <option value="General Inquiry">General Inquiry</option>
-                  </select>
-                  {errors.reason && (
-                    <span className="text-[10px] text-red-500 font-mono font-semibold">
-                      * {errors.reason.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Message */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="message" className="text-xs font-bold text-foreground font-sans">
-                    INSTRUCTIONS / DETAILS
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    placeholder="Detail your requirements, project scope, or opportunity..."
-                    {...register("message")}
-                    className={`px-4 py-3 rounded-xl bg-card-elevated border text-sm text-foreground placeholder:text-muted/60 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none ${
-                      errors.message ? "border-red-500/60" : "border-border/120"
-                    }`}
-                  />
-                  {errors.message && (
-                    <span className="text-[10px] text-red-500 font-mono font-semibold">
-                      * {errors.message.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Error warning bar */}
-                {submitResult?.success === false && (
-                  <div className="flex items-center gap-2 p-3.5 rounded-xl border border-red-500/20 bg-red-500/10 text-red-500 text-xs font-mono font-semibold">
-                    <ServerCrash className="w-4 h-4 flex-shrink-0" />
-                    <span>ERROR: {submitResult.error}</span>
+          {/* Right Column: Dynamic Form Card with Header */}
+          <div className="md:col-span-7 w-full max-w-2xl mx-auto">
+            <FadeIn direction="none" delay={0.4} duration={0.6}>
+              {submitResult?.success ? (
+                /* Gorgeous Human Success Card */
+                <Card className="border border-success/40 bg-card/45 backdrop-blur-md p-6 sm:p-8 shadow-[0_0_25px_var(--success-glow)] text-center flex flex-col items-center gap-5 rounded-2xl">
+                  <div className="w-12 h-12 rounded-full bg-success/15 border-2 border-success flex items-center justify-center text-success animate-bounce">
+                    <CheckCircle2 className="w-6 h-6" />
                   </div>
-                )}
 
-                {/* Submit button */}
-                <Button
-                  type="submit"
-                  isLoading={submitting}
-                  className="w-full mt-2 py-3 rounded-xl flex items-center justify-center gap-2 font-sans font-semibold tracking-wide"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Transmit Portal Ticket</span>
-                </Button>
-              </form>
-            </Card>
-          )}
-        </FadeIn>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-mono text-[9px] text-success font-bold tracking-widest uppercase">
+                      MESSAGE SENT SUCCESSFULLY
+                    </span>
+                    <CardTitle className="text-xl font-extrabold text-foreground font-sans">
+                      Message Delivered
+                    </CardTitle>
+                  </div>
 
-        {/* Compliancy disclaimer footer */}
-        <div className="mt-8 flex items-center justify-center gap-1.5 font-mono text-[10px] text-muted">
-          <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-          <span>Secured Ingress | TLS Encrypted Connection</span>
+                  {/* Message credentials details */}
+                  <div className="w-full bg-card-elevated/75 border border-border/80 rounded-xl p-4 text-left font-mono text-[11px] flex flex-col gap-2">
+                    <div className="flex justify-between border-b border-border/40 pb-1.5">
+                      <span className="text-muted">MESSAGE ID:</span>
+                      <span className="text-success font-bold">{submitResult.ticketId}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-border/40 pb-1.5">
+                      <span className="text-muted">TIMESTAMP:</span>
+                      <span className="text-foreground">{new Date(submitResult.timestamp!).toLocaleTimeString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted">DELIVERY STATUS:</span>
+                      <span className="text-success font-bold">RECEIVED DIRECTLY</span>
+                    </div>
+                    
+                    <p className="text-[10px] text-muted leading-relaxed font-sans mt-1.5 pt-1.5 border-t border-border/40">
+                      Your message has been successfully received. A secure notification has been sent directly to my primary inbox. I will read it and reply back soon.
+                    </p>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    onClick={() => setSubmitResult(null)}
+                    className="w-full mt-1 font-mono text-[11px] py-2"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 mr-2" />
+                    Send Another Message
+                  </Button>
+                </Card>
+              ) : (
+                /* Operational Support Form Card with Header */
+                <Card className="border border-border/80 p-5 sm:p-7 lg:p-8 bg-card-elevated/20 backdrop-blur-md relative overflow-hidden rounded-2xl shadow-xl">
+                  {/* Card Internal Header to avoid being "bald" */}
+                  <div className="mb-5 pb-4 border-b border-border/30">
+                    <h2 className="text-lg sm:text-xl font-bold text-foreground font-sans tracking-tight">
+                      Send a Message
+                    </h2>
+                    <p className="text-xs sm:text-sm text-muted font-sans mt-0.5 leading-relaxed">
+                      Fill out the form below and I will get back to you shortly.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 text-left">
+                    {/* 2-Column Row for Name & Email on Desktop */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Name */}
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="name" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                          YOUR NAME
+                        </label>
+                        <input
+                          id="name"
+                          type="text"
+                          placeholder="Enter your name"
+                          {...register("name")}
+                          className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all ${
+                            errors.name ? "border-red-500/50" : "border-border/60"
+                          }`}
+                        />
+                        {errors.name && (
+                          <span className="text-[9px] text-red-500 font-mono font-semibold">
+                            * {errors.name.message}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Email */}
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor="email" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                          EMAIL ADDRESS
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          placeholder="name@company.com"
+                          {...register("email")}
+                          className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all ${
+                            errors.email ? "border-red-500/50" : "border-border/60"
+                          }`}
+                        />
+                        {errors.email && (
+                          <span className="text-[9px] text-red-500 font-mono font-semibold">
+                            * {errors.email.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Reason Dropdown */}
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="reason" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                        REASON FOR CONTACT
+                      </label>
+                      <select
+                        id="reason"
+                        {...register("reason")}
+                        className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all cursor-pointer ${
+                          errors.reason ? "border-red-500/50" : "border-border/60"
+                        }`}
+                      >
+                        <option value="Hiring Opportunity">Hiring Opportunity (Full-Time / Contract)</option>
+                        <option value="Collaboration">Collaboration (Open Source / Startup)</option>
+                        <option value="Consulting">Consulting (Architecture Audit / Scaling)</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                      </select>
+                      {errors.reason && (
+                        <span className="text-[9px] text-red-500 font-mono font-semibold">
+                          * {errors.reason.message}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Message */}
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="message" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                        YOUR MESSAGE
+                      </label>
+                      <textarea
+                        id="message"
+                        rows={3}
+                        placeholder="Detail your requirements, project scope, or opportunity..."
+                        {...register("message")}
+                        className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all resize-none ${
+                          errors.message ? "border-red-500/50" : "border-border/60"
+                        }`}
+                      />
+                      {errors.message && (
+                        <span className="text-[9px] text-red-500 font-mono font-semibold">
+                          * {errors.message.message}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Error warning bar */}
+                    {submitResult?.success === false && (
+                      <div className="flex items-center gap-2 p-3 rounded-xl border border-red-500/20 bg-red-500/10 text-red-500 text-xs font-mono font-semibold">
+                        <ServerCrash className="w-4 h-4 flex-shrink-0" />
+                        <span>ERROR: {submitResult.error}</span>
+                      </div>
+                    )}
+
+                    {/* Submit button */}
+                    <Button
+                      type="submit"
+                      isLoading={submitting}
+                      className="w-full mt-1.5 py-2.5 rounded-xl flex items-center justify-center gap-2 font-sans font-bold tracking-wider text-xs sm:text-sm bg-primary hover:bg-primary-hover text-white transition-all shadow-[0_0_15px_rgba(79,124,255,0.2)] hover:shadow-[0_0_20px_rgba(79,124,255,0.35)]"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Send Message</span>
+                    </Button>
+                  </form>
+                </Card>
+              )}
+            </FadeIn>
+          </div>
+
         </div>
       </div>
     </div>

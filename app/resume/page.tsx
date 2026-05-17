@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Engineering Release Timeline | Dhruv Vedwal",
-  description: "A professional roadmap styled as active system version releases, displaying engineering achievements, architectural deliverables, and future systems integrations.",
+  title: "Professional Timeline | Dhruv Vedwal",
+  description: "A professional timeline highlighting my software engineering journey, key architectural achievements, and projects.",
 };
 
 export default function ResumeTimelinePage() {
@@ -28,32 +28,32 @@ export default function ResumeTimelinePage() {
             <FadeIn direction="up" delay={0.1}>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary-glow text-xs text-primary font-semibold uppercase tracking-wider mb-3">
                 <GitCommit className="w-3.5 h-3.5" />
-                <span>Product Release Log</span>
+                <span>Timeline</span>
               </div>
             </FadeIn>
 
             <FadeIn direction="up" delay={0.2}>
               <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground font-sans">
-                {personal.name} Roadmap
+                {personal.name} Timeline
               </h1>
             </FadeIn>
 
             <FadeIn direction="up" delay={0.3}>
               <p className="text-sm sm:text-base text-muted font-sans mt-3 leading-relaxed">
-                Chronological timeline tracking my developer progression styled as active system version releases, demonstrating system-level engineering achievements.
+                A chronological timeline of my professional experience, core engineering achievements, and milestones as a software engineer.
               </p>
             </FadeIn>
           </div>
 
-          <FadeIn direction="up" delay={0.4} className="flex-shrink-0">
+          <FadeIn direction="up" delay={0.4} className="flex-shrink-0 w-full sm:w-auto">
             <a
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-card-elevated hover:bg-card border border-border hover:border-primary/40 text-xs font-semibold text-foreground transition-all active:scale-[0.98] shadow-md cursor-pointer font-sans"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-card-elevated hover:bg-card border border-border hover:border-primary/40 text-xs font-semibold text-foreground transition-all active:scale-[0.98] shadow-md cursor-pointer font-sans w-full sm:w-auto"
             >
               <Download className="w-4 h-4 text-primary" />
-              <span>Download Static CV</span>
+              <span>Download CV</span>
             </a>
           </FadeIn>
         </div>

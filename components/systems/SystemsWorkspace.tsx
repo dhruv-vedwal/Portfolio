@@ -68,7 +68,7 @@ export default function SystemsWorkspace() {
           <div className="flex justify-between items-center px-2 text-xs text-muted">
             <span className="font-sans flex items-center gap-1.5">
               <Workflow className="w-3.5 h-3.5 text-primary" />
-              Interactive Topology Map (Drag canvas, click nodes to inspect)
+              Interactive System Diagram (Click nodes to inspect)
             </span>
           </div>
           <InteractiveFlow
@@ -78,14 +78,14 @@ export default function SystemsWorkspace() {
           />
         </div>
 
-        {/* Dynamic Telemetry Inspector sidebar panel */}
+        {/* Dynamic Component Inspector sidebar panel */}
         <div className="lg:col-span-4 flex flex-col h-full">
           <Card className="h-full border border-border flex flex-col justify-between p-6 bg-card/25 backdrop-blur-sm min-h-[300px]">
             {selectedNode ? (
               <div className="flex flex-col gap-5">
                 <div className="flex items-center justify-between border-b border-border pb-3">
                   <span className="font-mono text-xs text-primary font-bold tracking-widest uppercase">
-                    NODE INSPECTOR
+                    COMPONENT DETAILS
                   </span>
                   <span className="text-[9px] font-bold font-mono text-muted bg-card-elevated border border-border px-2 py-0.5 rounded">
                     ID: #{selectedNode.id}
@@ -94,7 +94,7 @@ export default function SystemsWorkspace() {
 
                 <div className="flex flex-col gap-1.5">
                   <span className="text-[9px] font-bold text-muted font-mono tracking-widest uppercase">
-                    ENTITY CLASS TYPE
+                    COMPONENT TYPE
                   </span>
                   <div className="text-sm font-bold text-foreground font-sans flex items-center gap-2">
                     <span className={`w-2.5 h-2.5 rounded-full ${
@@ -119,7 +119,7 @@ export default function SystemsWorkspace() {
 
                 <div className="flex flex-col gap-1.5">
                   <span className="text-[9px] font-bold text-muted font-mono tracking-widest uppercase">
-                    TELEMETRY & ACTIONS
+                    ROLE & METRICS
                   </span>
                   <p className="text-xs text-muted leading-relaxed font-sans bg-card-elevated/70 p-3 rounded-lg border border-border/80">
                     {selectedNode.description}
@@ -133,23 +133,16 @@ export default function SystemsWorkspace() {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-foreground font-sans">
-                    Inspection Telemetry Offline
+                    Select a Component
                   </h4>
                   <p className="text-xs text-muted max-w-[240px] leading-relaxed font-sans mt-1.5 mx-auto">
-                    Click on any node in the active topology canvas to analyze its scaling limits, task schemas, and failure recovery.
+                    Click on any component in the system diagram to view its details, engineering decisions, and metrics.
                   </p>
                 </div>
               </div>
             )}
 
-            {/* Sidebar bottom indicator */}
-            <div className="border-t border-border/40 pt-4 mt-6 flex items-center justify-between text-[10px] text-muted font-mono">
-              <span>SYSTEM: {activeSystem.id.toUpperCase()}</span>
-              <span className="flex items-center gap-1 text-success">
-                <span className="w-1.5 h-1.5 rounded-full bg-success" />
-                ONLINE
-              </span>
-            </div>
+
           </Card>
         </div>
       </div>

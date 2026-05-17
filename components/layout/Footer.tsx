@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { GitBranch, Mail, ShieldCheck } from "lucide-react";
+import { Mail, ShieldCheck } from "lucide-react";
 import { DEV_INFO } from "@/lib/constants";
 
 export default function Footer() {
@@ -21,25 +21,10 @@ export default function Footer() {
               DHRUV<span className="text-primary font-sans text-sm tracking-widest font-semibold bg-primary-glow px-1.5 py-0.5 rounded border border-primary/20">.SYS</span>
             </div>
             
+            
             <p className="text-muted text-sm max-w-sm font-sans leading-relaxed">
               A premium interactive systems portfolio presenting architectural narratives, event-driven pipelines, and robust full-stack delivery schemas.
             </p>
-
-            {/* Dashboard Telemetry Live Status */}
-            <div className="flex items-center gap-4 mt-2">
-              <div className="flex items-center gap-2 bg-card-elevated px-3 py-1.5 rounded-full border border-border/80 text-xs text-muted font-mono">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-                </span>
-                <span>SYSTEMS: ONLINE</span>
-              </div>
-
-              <div className="flex items-center gap-1.5 text-xs text-muted font-mono">
-                <GitBranch className="w-3.5 h-3.5" />
-                <span>v1.2.0-stable</span>
-              </div>
-            </div>
           </div>
 
           {/* Navigation Links Column */}
@@ -87,7 +72,7 @@ export default function Footer() {
                 href="/contact"
                 className="hover:text-foreground transition-colors flex items-center gap-2"
               >
-                <Mail className="w-4 h-4" /> Contact Portal
+                <Mail className="w-4 h-4" /> Contact
               </Link>
             </div>
           </div>
@@ -102,7 +87,7 @@ export default function Footer() {
           </span>
           <div className="flex items-center gap-1 text-muted text-center sm:text-right">
             <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-            <span>Confidentiality Safe Architecture Storytelling</span>
+            <span>Secure & Privacy-Focused System Design</span>
           </div>
         </div>
       </div>

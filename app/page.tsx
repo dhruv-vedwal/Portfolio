@@ -71,25 +71,25 @@ export default function HomePage() {
           </FadeIn>
           <FadeIn direction="up" delay={0.3}>
             <p className="text-muted text-base sm:text-lg max-w-2xl leading-relaxed font-sans">
-              A personal portfolio shouldn&apos;t leak proprietary interfaces. Instead, explore my customized, interactive systems engineering maps illustrating complex events, scaling behaviors, and recovery procedures.
+              Instead of static screenshots or proprietary code, explore my interactive system diagrams illustrating how I structure projects, solve key scaling problems, and handle event distribution.
             </p>
           </FadeIn>
           <FadeIn direction="up" delay={0.4}>
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-4">
+            <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch sm:items-center justify-center mt-4 w-full sm:w-auto">
               <Link
                 href="/systems"
-                className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-semibold shadow-[0_0_15px_var(--primary-glow)] hover:shadow-[0_0_20px_rgba(79,124,255,0.45)] transition-all active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-semibold shadow-[0_0_15px_var(--primary-glow)] hover:shadow-[0_0_20px_rgba(79,124,255,0.45)] transition-all active:scale-[0.98] w-full sm:w-auto cursor-pointer"
               >
-                <span>Launch Systems Explorer</span>
+                <span>Explore System Designs</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-card border border-border/80 hover:border-primary/40 text-muted hover:text-foreground text-sm font-semibold transition-all active:scale-[0.98]"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-card border border-border/80 hover:border-primary/40 text-muted hover:text-foreground text-sm font-semibold transition-all active:scale-[0.98] w-full sm:w-auto cursor-pointer"
               >
                 <Send className="w-4 h-4 text-muted" />
-                <span>Submit Portal Request</span>
+                <span>Get in Touch</span>
               </Link>
             </div>
           </FadeIn>

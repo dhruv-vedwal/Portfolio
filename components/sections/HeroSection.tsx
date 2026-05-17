@@ -51,7 +51,7 @@ export default function HeroSection() {
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2} duration={0.6}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1] font-sans">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.1] font-sans">
               Dhruv Vedwal
               <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-hover">
                 System Architect
@@ -60,17 +60,17 @@ export default function HeroSection() {
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3} duration={0.6}>
-            <p className="text-base sm:text-lg md:text-xl text-muted font-sans max-w-2xl leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg text-muted font-sans max-w-2xl leading-relaxed">
               I engineer high-performance software systems and dynamic web applications, focusing on robust architectures, scalability, and delivering exceptional user experiences.
             </p>
           </FadeIn>
 
           {/* Action CTAs */}
-          <FadeIn direction="up" delay={0.4} duration={0.6}>
-            <div className="flex flex-wrap gap-4 items-center">
+          <FadeIn direction="up" delay={0.4} duration={0.6} className="w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch sm:items-center w-full">
               <Link
                 href="/systems"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-semibold shadow-[0_0_15px_var(--primary-glow)] hover:shadow-[0_0_20px_rgba(79,124,255,0.4)] transition-all active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-semibold shadow-[0_0_15px_var(--primary-glow)] hover:shadow-[0_0_20px_rgba(79,124,255,0.4)] transition-all active:scale-[0.98] cursor-pointer"
               >
                 <Terminal className="w-4 h-4" />
                 <span>Explore Systems</span>
@@ -78,7 +78,7 @@ export default function HeroSection() {
 
               <Link
                 href="/resume"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-card-elevated hover:bg-card border border-border text-foreground hover:border-muted text-sm font-semibold transition-all active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-card-elevated hover:bg-card border border-border text-foreground hover:border-muted text-sm font-semibold transition-all active:scale-[0.98] cursor-pointer"
               >
                 <FileText className="w-4 h-4 text-muted" />
                 <span>View Timeline</span>
@@ -86,10 +86,10 @@ export default function HeroSection() {
 
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border/80 hover:border-primary/40 text-muted hover:text-foreground text-sm font-semibold transition-all active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-border/80 hover:border-primary/40 text-muted hover:text-foreground text-sm font-semibold transition-all active:scale-[0.98] cursor-pointer"
               >
                 <Send className="w-4 h-4 text-muted hover:text-primary" />
-                <span>Contact Portal</span>
+                <span>Get in Touch</span>
               </Link>
             </div>
           </FadeIn>

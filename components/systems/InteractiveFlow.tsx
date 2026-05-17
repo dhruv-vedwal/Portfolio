@@ -146,7 +146,7 @@ export default function InteractiveFlow({
       {/* Background visual watermarks */}
       <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 font-mono text-[9px] text-muted bg-card px-2.5 py-1 rounded-md border border-border/80 select-none">
         <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-        <span>INTERACTIVE TOPOLOGY CANVAS</span>
+        <span>INTERACTIVE SYSTEM DIAGRAM</span>
       </div>
 
       <ReactFlow

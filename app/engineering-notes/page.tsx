@@ -50,7 +50,7 @@ export default function EngineeringNotesPage() {
                   <Card className="p-6 sm:p-8 hover:border-primary/40 hover:shadow-[0_0_15px_var(--primary-glow)] transition-all duration-300">
                     <div className="flex flex-col gap-4">
                       {/* Meta: Category + Date + Read Time */}
-                      <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-muted">
+                      <div className="flex flex-wrap items-center gap-3 sm:gap-4 gap-y-2 text-xs font-mono text-muted">
                         <span className="px-2 py-0.5 rounded border border-primary/20 bg-primary-glow/10 text-primary font-semibold">
                           {note.category}
                         </span>
