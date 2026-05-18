@@ -89,14 +89,14 @@ export default function ContactPage() {
           <div className="md:col-span-5 flex flex-col gap-6 text-left">
             <div className="flex flex-col gap-3">
               <FadeIn direction="up" delay={0.1}>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary-glow text-[10px] font-bold text-primary tracking-widest uppercase w-fit mb-1">
-                  <Mail className="w-3.5 h-3.5" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/20 bg-primary-glow text-[10px] font-bold text-primary tracking-widest uppercase w-fit mb-1 rounded-sm">
+                  <Mail className="w-3 h-3" />
                   <span>Get In Touch</span>
                 </div>
               </FadeIn>
 
               <FadeIn direction="up" delay={0.2}>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground font-sans leading-[1.1]">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-medium tracking-normal text-foreground leading-[1.05]">
                   Connect <br className="hidden md:inline" />
                   With Me
                 </h1>
@@ -115,8 +115,8 @@ export default function ContactPage() {
             <FadeIn direction="none" delay={0.4} duration={0.6}>
               {submitResult?.success ? (
                 /* Gorgeous Human Success Card */
-                <Card className="border border-success/40 bg-card/45 backdrop-blur-md p-6 sm:p-8 shadow-[0_0_25px_var(--success-glow)] text-center flex flex-col items-center gap-5 rounded-2xl">
-                  <div className="w-12 h-12 rounded-full bg-success/15 border-2 border-success flex items-center justify-center text-success animate-bounce">
+                <div className="card-blueprint p-6 sm:p-8 text-center flex flex-col items-center gap-5 rounded-lg border border-success/40 bg-card/45 backdrop-blur-md">
+                  <div className="w-12 h-12 rounded-sm bg-success/15 border-2 border-success flex items-center justify-center text-success animate-bounce">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
 
@@ -124,13 +124,13 @@ export default function ContactPage() {
                     <span className="font-mono text-[9px] text-success font-bold tracking-widest uppercase">
                       MESSAGE SENT SUCCESSFULLY
                     </span>
-                    <CardTitle className="text-xl font-extrabold text-foreground font-sans">
+                    <h2 className="text-2xl font-serif font-medium text-foreground">
                       Message Delivered
-                    </CardTitle>
+                    </h2>
                   </div>
 
                   {/* Message credentials details */}
-                  <div className="w-full bg-card-elevated/75 border border-border/80 rounded-xl p-4 text-left font-mono text-[11px] flex flex-col gap-2">
+                  <div className="w-full bg-card-elevated/75 border border-border/80 rounded-sm p-4 text-left font-mono text-[11px] flex flex-col gap-2">
                     <div className="flex justify-between border-b border-border/40 pb-1.5">
                       <span className="text-muted">MESSAGE ID:</span>
                       <span className="text-success font-bold">{submitResult.ticketId}</span>
@@ -149,21 +149,20 @@ export default function ContactPage() {
                     </p>
                   </div>
 
-                  <Button
-                    variant="outline"
+                  <button
                     onClick={() => setSubmitResult(null)}
-                    className="w-full mt-1 font-mono text-[11px] py-2"
+                    className="btn-bespoke w-full mt-1"
                   >
                     <RefreshCw className="w-3.5 h-3.5 mr-2" />
                     Send Another Message
-                  </Button>
-                </Card>
+                  </button>
+                </div>
               ) : (
                 /* Operational Support Form Card with Header */
-                <Card className="border border-border/80 p-5 sm:p-7 lg:p-8 bg-card-elevated/20 backdrop-blur-md relative overflow-hidden rounded-2xl shadow-xl">
+                <div className="card-blueprint p-6 sm:p-8 bg-card-elevated/20 backdrop-blur-md relative overflow-hidden rounded-lg">
                   {/* Card Internal Header to avoid being "bald" */}
                   <div className="mb-5 pb-4 border-b border-border/30">
-                    <h2 className="text-lg sm:text-xl font-bold text-foreground font-sans tracking-tight">
+                    <h2 className="text-xl font-serif font-medium text-foreground tracking-normal">
                       Send a Message
                     </h2>
                     <p className="text-xs sm:text-sm text-muted font-sans mt-0.5 leading-relaxed">
@@ -176,7 +175,7 @@ export default function ContactPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Name */}
                       <div className="flex flex-col gap-1.5">
-                        <label htmlFor="name" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                        <label htmlFor="name" className="text-[9px] font-bold text-foreground/80 tracking-widest font-mono uppercase">
                           YOUR NAME
                         </label>
                         <input
@@ -184,7 +183,7 @@ export default function ContactPage() {
                           type="text"
                           placeholder="Enter your name"
                           {...register("name")}
-                          className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all ${
+                          className={`px-3.5 py-2.5 rounded-md bg-card border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary focus:bg-card-elevated outline-none transition-all duration-300 ${
                             errors.name ? "border-red-500/50" : "border-border/60"
                           }`}
                         />
@@ -197,7 +196,7 @@ export default function ContactPage() {
 
                       {/* Email */}
                       <div className="flex flex-col gap-1.5">
-                        <label htmlFor="email" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                        <label htmlFor="email" className="text-[9px] font-bold text-foreground/80 tracking-widest font-mono uppercase">
                           EMAIL ADDRESS
                         </label>
                         <input
@@ -205,7 +204,7 @@ export default function ContactPage() {
                           type="email"
                           placeholder="name@company.com"
                           {...register("email")}
-                          className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all ${
+                          className={`px-3.5 py-2.5 rounded-md bg-card border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary focus:bg-card-elevated outline-none transition-all duration-300 ${
                             errors.email ? "border-red-500/50" : "border-border/60"
                           }`}
                         />
@@ -219,13 +218,13 @@ export default function ContactPage() {
 
                     {/* Reason Dropdown */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="reason" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                      <label htmlFor="reason" className="text-[9px] font-bold text-foreground/80 tracking-widest font-mono uppercase">
                         REASON FOR CONTACT
                       </label>
                       <select
                         id="reason"
                         {...register("reason")}
-                        className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all cursor-pointer ${
+                        className={`px-3.5 py-2.5 rounded-md bg-card border text-xs sm:text-sm text-foreground focus:border-primary focus:bg-card-elevated outline-none transition-all duration-300 cursor-pointer ${
                           errors.reason ? "border-red-500/50" : "border-border/60"
                         }`}
                       >
@@ -243,7 +242,7 @@ export default function ContactPage() {
 
                     {/* Message */}
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="message" className="text-[10px] font-bold text-foreground/80 tracking-widest font-sans uppercase">
+                      <label htmlFor="message" className="text-[9px] font-bold text-foreground/80 tracking-widest font-mono uppercase">
                         YOUR MESSAGE
                       </label>
                       <textarea
@@ -251,7 +250,7 @@ export default function ContactPage() {
                         rows={3}
                         placeholder="Detail your requirements, project scope, or opportunity..."
                         {...register("message")}
-                        className={`px-3.5 py-2.5 rounded-xl bg-card-elevated/60 border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary/80 focus:ring-1 focus:ring-primary/20 outline-none transition-all resize-none ${
+                        className={`px-3.5 py-2.5 rounded-md bg-card border text-xs sm:text-sm text-foreground placeholder:text-muted/40 focus:border-primary focus:bg-card-elevated outline-none transition-all duration-300 resize-none ${
                           errors.message ? "border-red-500/50" : "border-border/60"
                         }`}
                       />
@@ -264,23 +263,32 @@ export default function ContactPage() {
 
                     {/* Error warning bar */}
                     {submitResult?.success === false && (
-                      <div className="flex items-center gap-2 p-3 rounded-xl border border-red-500/20 bg-red-500/10 text-red-500 text-xs font-mono font-semibold">
+                      <div className="flex items-center gap-2 p-3 rounded-md border border-red-500/20 bg-red-500/10 text-red-500 text-xs font-mono font-semibold">
                         <ServerCrash className="w-4 h-4 flex-shrink-0" />
                         <span>ERROR: {submitResult.error}</span>
                       </div>
                     )}
 
                     {/* Submit button */}
-                    <Button
+                    <button
                       type="submit"
-                      isLoading={submitting}
-                      className="w-full mt-1.5 py-2.5 rounded-xl flex items-center justify-center gap-2 font-sans font-bold tracking-wider text-xs sm:text-sm bg-primary hover:bg-primary-hover text-white transition-all shadow-[0_0_15px_rgba(79,124,255,0.2)] hover:shadow-[0_0_20px_rgba(79,124,255,0.35)]"
+                      disabled={submitting}
+                      className="btn-bespoke-solid w-full mt-1.5 py-2.5 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
                     >
-                      <Send className="w-3.5 h-3.5" />
-                      <span>Send Message</span>
-                    </Button>
+                      {submitting ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Delivering...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-3.5 h-3.5" />
+                          <span>Send Message</span>
+                        </>
+                      )}
+                    </button>
                   </form>
-                </Card>
+                </div>
               )}
             </FadeIn>
           </div>

@@ -52,25 +52,27 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b flex flex-col ${
         scrolled
-          ? "bg-background/80 backdrop-blur-md border-border/80 py-4 shadow-lg shadow-background/5"
-          : "bg-transparent border-transparent py-6"
+          ? "bg-background/80 backdrop-blur-md border-border/80 shadow-lg shadow-background/5"
+          : "bg-transparent border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className={`max-w-7xl w-full mx-auto px-6 flex items-center justify-between transition-all duration-300 ${
+        scrolled ? "py-3" : "py-5"
+      }`}>
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 rounded-lg bg-card-elevated border border-border flex items-center justify-center group-hover:border-primary/50 group-hover:shadow-[0_0_10px_var(--primary-glow)] transition-all">
-            <Terminal className="w-5 h-5 text-primary group-hover:scale-105 transition-transform" />
+          <div className="w-9 h-9 rounded-sm bg-card-elevated border border-border flex items-center justify-center transition-all group-hover:border-primary">
+            <Terminal className="w-4.5 h-4.5 text-primary group-hover:scale-105 transition-transform" />
           </div>
           <span className="font-mono font-bold tracking-tight text-lg text-foreground flex items-center gap-1.5">
-            DHRUV<span className="text-primary font-sans text-sm tracking-widest font-semibold bg-primary-glow px-1.5 py-0.5 rounded border border-primary/20">.SYS</span>
+            DHRUV<span className="text-primary font-sans text-[10px] tracking-widest font-bold bg-primary-glow px-1.5 py-0.5 rounded-sm border border-primary/20">.SYS</span>
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1.5 bg-card/45 backdrop-blur-sm px-2 py-1.5 rounded-full border border-border/50">
+        <nav className="hidden md:flex items-center gap-1 bg-card/45 backdrop-blur-sm px-1.5 py-1 rounded-md border border-border/50">
           {NAV_ITEMS.map((item) => {
             const isActive =
               item.path === "/"
@@ -80,14 +82,14 @@ export default function Header() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`relative px-4 py-1.5 text-sm font-medium transition-colors font-sans rounded-full ${
-                  isActive ? "text-primary-hover" : "text-muted hover:text-foreground"
+                className={`relative px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors font-mono rounded-md ${
+                  isActive ? "text-background" : "text-muted hover:text-foreground"
                 }`}
               >
                 {isActive && (
                   <motion.span
                     layoutId="activeNavIndicator"
-                    className="absolute inset-0 bg-card-elevated border border-border rounded-full z-[-1]"
+                    className="absolute inset-0 bg-primary rounded-md z-[-1]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -101,7 +103,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center text-muted hover:text-foreground hover:border-primary/30 transition-all cursor-pointer"
+            className="w-9 h-9 rounded-md border border-border bg-card flex items-center justify-center text-muted hover:text-foreground hover:border-primary transition-all cursor-pointer"
             aria-label="Toggle Theme"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -109,9 +111,9 @@ export default function Header() {
           
           <Link
             href="/contact"
-            className="relative overflow-hidden group px-5 py-2 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 transition-all cursor-pointer shadow-[0_0_15px_var(--primary-glow)] hover:shadow-[0_0_20px_rgba(79,124,255,0.3)] text-sm font-semibold tracking-wide text-foreground"
+            className="btn-bespoke py-2 px-4 rounded-md"
           >
-            <span className="relative z-10 flex items-center gap-1">Contact Me <span className="group-hover:translate-x-1 transition-transform">→</span></span>
+            <span className="relative z-10 flex items-center gap-1">Contact Me <span className="group-hover:translate-x-0.5 transition-transform">→</span></span>
           </Link>
         </div>
 

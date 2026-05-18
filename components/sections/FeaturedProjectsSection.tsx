@@ -30,30 +30,29 @@ const FEATURED_PROJECTS = [
 
 export default function FeaturedProjectsSection() {
   return (
-    <section className="py-20 border-t border-border bg-card/5 relative overflow-hidden">
+    <section className="py-20 border-t border-border bg-transparent relative overflow-hidden">
       {/* Visual top grid background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-glow/5 to-transparent opacity-60 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-primary-glow blur-[150px] rounded-full opacity-10 pointer-events-none" />
+      <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-primary-glow/5 blur-[150px] rounded-full opacity-10 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="text-left max-w-2xl">
             <FadeIn direction="up" delay={0.1}>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary-glow text-xs text-primary font-semibold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/20 bg-primary/5 text-[10px] font-bold text-primary tracking-widest uppercase mb-3 rounded-sm">
                 <Code2 className="w-3.5 h-3.5" />
                 <span>Featured Systems</span>
               </div>
             </FadeIn>
             
             <FadeIn direction="up" delay={0.2}>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground font-sans">
+              <h2 className="text-3xl sm:text-4xl font-serif font-medium tracking-normal text-foreground">
                 End-to-End Product Deliveries
               </h2>
             </FadeIn>
 
             <FadeIn direction="up" delay={0.3}>
-              <p className="text-muted mt-3 font-sans leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted mt-3 font-sans leading-relaxed">
                 Explore a selection of my featured open-source work, demonstrating clean code practices, modern tech stacks, and end-to-end product delivery.
               </p>
             </FadeIn>
@@ -64,25 +63,22 @@ export default function FeaturedProjectsSection() {
         <FadeInStagger className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-left">
           {FEATURED_PROJECTS.map((proj, idx) => (
             <FadeIn key={idx} direction="up" delay={idx * 0.1}>
-              <Card className="group h-full flex flex-col justify-between p-8 hover:border-primary/40 hover:shadow-[0_0_25px_var(--primary-glow)] transition-all duration-300 relative bg-card/40 backdrop-blur-sm">
+              <div className="card-blueprint group h-full flex flex-col justify-between p-8 hover:border-primary/40 transition-all duration-300 relative bg-card/45 backdrop-blur-sm rounded-lg">
                 
-                {/* Neon visual indicator */}
-                <div className={`absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r ${proj.color} opacity-80 group-hover:opacity-100 transition-opacity`} />
-
                 <div className="flex flex-col gap-6">
                   {/* Top Row: Icon + Meta */}
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-card-elevated border border-border flex items-center justify-center text-muted group-hover:text-primary group-hover:border-primary/30 transition-all duration-300">
+                      <div className="w-10 h-10 rounded-sm bg-card-elevated border border-border flex items-center justify-center text-muted group-hover:text-primary group-hover:border-primary/30 transition-all duration-300">
                         <Terminal className="w-5 h-5" />
                       </div>
                       <div>
                         <span className="text-[10px] font-mono font-bold text-primary tracking-widest uppercase block">
                           {proj.highlight}
                         </span>
-                        <CardTitle className="text-2xl font-extrabold font-sans text-foreground mt-0.5 group-hover:text-primary transition-colors">
+                        <h3 className="text-xl sm:text-2xl font-serif font-medium text-foreground mt-1 transition-colors">
                           {proj.title}
-                        </CardTitle>
+                        </h3>
                       </div>
                     </div>
 
@@ -91,7 +87,7 @@ export default function FeaturedProjectsSection() {
                         href={proj.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-9 h-9 rounded-lg bg-card-elevated border border-border hover:border-primary/40 text-muted hover:text-foreground flex items-center justify-center transition-all cursor-pointer"
+                        className="w-9 h-9 rounded-sm bg-card-elevated border border-border hover:border-primary/40 text-muted hover:text-foreground flex items-center justify-center transition-all cursor-pointer"
                         title="View GitHub Repository"
                       >
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -102,18 +98,18 @@ export default function FeaturedProjectsSection() {
                   </div>
 
                   {/* Subtitle */}
-                  <h4 className="text-xs sm:text-sm font-bold text-muted font-sans tracking-wide">
+                  <span className="text-[10px] font-mono font-bold text-muted uppercase tracking-wider block">
                     {proj.subtitle}
-                  </h4>
+                  </span>
 
                   {/* Description */}
-                  <CardDescription className="text-sm text-muted leading-relaxed font-sans pt-1">
+                  <p className="text-xs sm:text-sm text-muted leading-relaxed font-sans pt-1">
                     {proj.description}
-                  </CardDescription>
+                  </p>
 
                   {/* Live Metric callout */}
-                  <div className="flex items-center gap-2 text-xs font-semibold text-success font-mono bg-success-glow/10 border border-success-glow/20 px-3.5 py-1.5 rounded-lg w-fit">
-                    <Zap className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-primary font-mono bg-primary/5 border border-primary/10 px-3 py-1 rounded-sm w-fit">
+                    <Zap className="w-3.5 h-3.5 text-primary" />
                     <span>{proj.metrics}</span>
                   </div>
                 </div>
@@ -124,7 +120,7 @@ export default function FeaturedProjectsSection() {
                     {proj.technologies.map((t, tIdx) => (
                       <span
                         key={tIdx}
-                        className="px-2.5 py-0.5 rounded bg-card-elevated border border-border/80 text-[10px] text-foreground font-mono"
+                        className="px-2.5 py-0.5 rounded-sm bg-card-elevated border border-border/80 text-[10px] text-foreground font-mono"
                       >
                         {t}
                       </span>
@@ -142,7 +138,7 @@ export default function FeaturedProjectsSection() {
                   </a>
                 </div>
 
-              </Card>
+              </div>
             </FadeIn>
           ))}
         </FadeInStagger>

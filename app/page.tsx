@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import HeroSection from "@/components/sections/HeroSection";
+import DeveloperTerminal from "@/components/sections/DeveloperTerminal";
 import ImpactMetrics from "@/components/sections/ImpactMetrics";
 import CapabilitySection from "@/components/sections/CapabilitySection";
 import FeaturedProjectsSection from "@/components/sections/FeaturedProjectsSection";
+import PageNavigator from "@/components/layout/PageNavigator";
 import { Terminal, Send, ArrowRight } from "lucide-react";
 import { FadeIn } from "@/components/animations/FadeIn";
 
@@ -39,33 +41,48 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      {/* 1. Hero Identity Header */}
-      <HeroSection />
+      {/* Dynamic Side & Mobile HUD Navigator */}
+      <PageNavigator />
 
-      {/* 2. Impact Metrics and Recharts Telemetry */}
-      <ImpactMetrics />
+      {/* 1. Hero Identity Header */}
+      <div id="hero">
+        <HeroSection />
+      </div>
+
+      {/* 2. Interactive CLI Command Center */}
+      <div id="cli">
+        <DeveloperTerminal />
+      </div>
 
       {/* 3. Engineering Core Capabilities */}
-      <CapabilitySection />
+      <div id="capabilities">
+        <CapabilitySection />
+      </div>
 
       {/* 4. Featured Software Projects */}
-      <FeaturedProjectsSection />
+      <div id="projects">
+        <FeaturedProjectsSection />
+      </div>
 
-      {/* 5. Bottom System Promotion CTA Banner */}
-      <section className="py-20 bg-card/15 border-t border-b border-border relative overflow-hidden">
-        {/* Decorative glows */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-glow/5 via-transparent to-success-glow/5 opacity-80" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary-glow blur-[150px] rounded-full opacity-10 pointer-events-none" />
+      {/* 5. Engineering Impact Metrics */}
+      <div id="metrics">
+        <ImpactMetrics />
+      </div>
+
+      {/* 6. Bottom System Promotion CTA Banner */}
+      <section className="py-20 bg-card/10 border-t border-b border-border relative overflow-hidden">
+        {/* Decorative ambient gradients */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-glow/5 via-transparent to-primary-glow/5 opacity-80" />
 
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10 flex flex-col items-center gap-6">
           <FadeIn direction="up" delay={0.1}>
-            <div className="w-12 h-12 rounded-xl bg-card-elevated border border-border flex items-center justify-center mb-2">
-              <Terminal className="w-6 h-6 text-primary" />
+            <div className="w-12 h-12 rounded-sm bg-card-elevated border border-border flex items-center justify-center mb-2">
+              <Terminal className="w-5 h-5 text-primary" />
             </div>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2}>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground font-sans">
+            <h2 className="text-3xl sm:text-4xl font-serif font-medium tracking-normal text-foreground">
               Dive Deeper Into the Architecture
             </h2>
           </FadeIn>
@@ -75,20 +92,20 @@ export default function HomePage() {
             </p>
           </FadeIn>
           <FadeIn direction="up" delay={0.4}>
-            <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 items-stretch sm:items-center justify-center mt-4 w-full sm:w-auto">
+            <div className="flex flex-wrap gap-4 items-center justify-center mt-4 w-full sm:w-auto">
               <Link
                 href="/systems"
-                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-sm font-semibold shadow-[0_0_15px_var(--primary-glow)] hover:shadow-[0_0_20px_rgba(79,124,255,0.45)] transition-all active:scale-[0.98] w-full sm:w-auto cursor-pointer"
+                className="btn-bespoke-solid group"
               >
                 <span>Explore System Designs</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-card border border-border/80 hover:border-primary/40 text-muted hover:text-foreground text-sm font-semibold transition-all active:scale-[0.98] w-full sm:w-auto cursor-pointer"
+                className="btn-bespoke"
               >
-                <Send className="w-4 h-4 text-muted" />
+                <Send className="w-3.5 h-3.5 mr-2 text-primary" />
                 <span>Get in Touch</span>
               </Link>
             </div>

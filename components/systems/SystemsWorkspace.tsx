@@ -27,7 +27,7 @@ export default function SystemsWorkspace() {
     <div className="flex flex-col gap-10">
       {/* 1. System Selection Slider Tabs */}
       <div className="flex flex-col gap-4">
-        <span className="font-mono text-xs text-primary font-bold tracking-widest uppercase">
+        <span className="font-mono text-[9px] text-primary font-bold tracking-widest uppercase">
           SELECT OPERATIONAL SYSTEM ARCHITECTURE
         </span>
         
@@ -38,21 +38,21 @@ export default function SystemsWorkspace() {
               <button
                 key={sys.id}
                 onClick={() => handleSystemChange(sys.id)}
-                className={`text-left p-4 rounded-xl border transition-all cursor-pointer ${
+                className={`text-left p-4 rounded-md border transition-all cursor-pointer ${
                   isActive
-                    ? "bg-primary-glow/20 border-primary shadow-[0_0_15px_var(--primary-glow)]"
-                    : "bg-card/40 border-border hover:border-muted/50 hover:bg-card-elevated/40"
+                    ? "bg-primary/10 border-primary"
+                    : "bg-card/45 border-border hover:border-primary/40 hover:bg-card-elevated/40"
                 }`}
               >
-                <div className="text-[10px] font-bold text-muted font-mono tracking-wider uppercase mb-1 flex items-center justify-between">
+                <div className="text-[9px] font-bold text-muted font-mono tracking-wider uppercase mb-1.5 flex items-center justify-between">
                   <span>{sys.tag}</span>
                   {isActive && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
                 </div>
-                <h4 className="text-xs font-extrabold text-foreground font-sans line-clamp-1 mb-2">
+                <h4 className="text-xs sm:text-sm font-serif font-medium text-foreground line-clamp-1 mb-2">
                   {sys.title}
                 </h4>
-                <div className="text-[10px] text-success font-semibold flex items-center gap-1 font-mono">
-                  <Zap className="w-3 h-3" />
+                <div className="text-[10px] text-primary font-semibold flex items-center gap-1 font-mono">
+                  <Zap className="w-3 h-3 text-primary" />
                   <span>{sys.impact.split(" | ")[0]}</span>
                 </div>
               </button>
@@ -66,7 +66,7 @@ export default function SystemsWorkspace() {
         {/* Canvas Section */}
         <div className="lg:col-span-8 flex flex-col gap-2">
           <div className="flex justify-between items-center px-2 text-xs text-muted">
-            <span className="font-sans flex items-center gap-1.5">
+            <span className="font-mono text-[10px] tracking-wider uppercase flex items-center gap-1.5">
               <Workflow className="w-3.5 h-3.5 text-primary" />
               Interactive System Diagram (Click nodes to inspect)
             </span>
@@ -80,14 +80,14 @@ export default function SystemsWorkspace() {
 
         {/* Dynamic Component Inspector sidebar panel */}
         <div className="lg:col-span-4 flex flex-col h-full">
-          <Card className="h-full border border-border flex flex-col justify-between p-6 bg-card/25 backdrop-blur-sm min-h-[300px]">
+          <div className="card-blueprint h-full flex flex-col justify-between p-6 bg-card/25 backdrop-blur-sm min-h-[300px] rounded-lg">
             {selectedNode ? (
               <div className="flex flex-col gap-5">
                 <div className="flex items-center justify-between border-b border-border pb-3">
-                  <span className="font-mono text-xs text-primary font-bold tracking-widest uppercase">
+                  <span className="font-mono text-[9px] text-primary font-bold tracking-widest uppercase">
                     COMPONENT DETAILS
                   </span>
-                  <span className="text-[9px] font-bold font-mono text-muted bg-card-elevated border border-border px-2 py-0.5 rounded">
+                  <span className="text-[9px] font-bold font-mono text-muted bg-card-elevated border border-border px-2 py-0.5 rounded-sm">
                     ID: #{selectedNode.id}
                   </span>
                 </div>
@@ -96,13 +96,13 @@ export default function SystemsWorkspace() {
                   <span className="text-[9px] font-bold text-muted font-mono tracking-widest uppercase">
                     COMPONENT TYPE
                   </span>
-                  <div className="text-sm font-bold text-foreground font-sans flex items-center gap-2">
-                    <span className={`w-2.5 h-2.5 rounded-full ${
+                  <div className="text-xs font-bold text-foreground font-mono flex items-center gap-2">
+                    <span className={`w-2.5 h-2.5 rounded-sm ${
                       selectedNode.type === "ingress" ? "bg-primary" :
-                      selectedNode.type === "queue" ? "bg-warning" :
-                      selectedNode.type === "processing" ? "bg-purple-500" :
-                      selectedNode.type === "database" ? "bg-success" :
-                      selectedNode.type === "storage" ? "bg-pink-500" : "bg-slate-500"
+                      selectedNode.type === "queue" ? "bg-amber-600" :
+                      selectedNode.type === "processing" ? "bg-primary-hover" :
+                      selectedNode.type === "database" ? "bg-primary" :
+                      selectedNode.type === "storage" ? "bg-primary-hover" : "bg-slate-500"
                     }`} />
                     <span className="capitalize">{selectedNode.type}</span>
                   </div>
@@ -112,7 +112,7 @@ export default function SystemsWorkspace() {
                   <span className="text-[9px] font-bold text-muted font-mono tracking-widest uppercase">
                     COMPONENT NAME
                   </span>
-                  <h4 className="text-base font-extrabold text-foreground font-sans leading-snug">
+                  <h4 className="text-base font-serif font-medium text-foreground leading-snug">
                     {selectedNode.label}
                   </h4>
                 </div>
@@ -121,18 +121,18 @@ export default function SystemsWorkspace() {
                   <span className="text-[9px] font-bold text-muted font-mono tracking-widest uppercase">
                     ROLE & METRICS
                   </span>
-                  <p className="text-xs text-muted leading-relaxed font-sans bg-card-elevated/70 p-3 rounded-lg border border-border/80">
+                  <p className="text-xs text-muted leading-relaxed font-sans bg-card-elevated/40 p-4 rounded-sm border border-border">
                     {selectedNode.description}
                   </p>
                 </div>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center text-center my-auto gap-4 py-8">
-                <div className="w-12 h-12 rounded-xl bg-card-elevated border border-border flex items-center justify-center text-muted">
-                  <Settings className="w-6 h-6 animate-spin" style={{ animationDuration: '8s' }} />
+                <div className="w-12 h-12 rounded-sm bg-card-elevated border border-border flex items-center justify-center text-muted">
+                  <Settings className="w-5 h-5 animate-spin text-primary" style={{ animationDuration: '8s' }} />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-foreground font-sans">
+                  <h4 className="text-sm font-serif font-medium text-foreground">
                     Select a Component
                   </h4>
                   <p className="text-xs text-muted max-w-[240px] leading-relaxed font-sans mt-1.5 mx-auto">
@@ -142,20 +142,19 @@ export default function SystemsWorkspace() {
               </div>
             )}
 
-
-          </Card>
+          </div>
         </div>
       </div>
 
       {/* 3. Detailed Engineering Breakdown narrative card */}
       <FadeIn direction="none" delay={0.1}>
-        <Card className="border border-border/90 p-8 sm:p-10 bg-card-elevated/20">
+        <div className="card-blueprint p-8 sm:p-10 bg-card/30 rounded-lg">
           <div className="flex flex-wrap gap-4 items-center justify-between border-b border-border/60 pb-6 mb-8">
             <div>
               <span className="font-mono text-xs text-primary font-bold tracking-widest uppercase">
                 ENGINEERING DEEP DIVE
               </span>
-              <h3 className="text-2xl font-extrabold text-foreground font-sans mt-1">
+              <h3 className="text-2xl sm:text-3xl font-serif font-medium text-foreground mt-1">
                 {activeSystem.title}
               </h3>
             </div>
@@ -165,7 +164,7 @@ export default function SystemsWorkspace() {
               {activeSystem.tech.map((t, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1 rounded bg-card-elevated border border-border text-xs text-foreground font-mono font-semibold"
+                  className="px-3 py-1 rounded-sm bg-card-elevated border border-border text-xs text-foreground font-mono"
                 >
                   {t}
                 </span>
@@ -179,11 +178,11 @@ export default function SystemsWorkspace() {
             <div className="flex flex-col gap-6">
               {/* Problem */}
               <div className="flex gap-4">
-                <div className="w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
-                  <Server className="w-4 h-4 text-red-500" />
+                <div className="w-9 h-9 rounded-sm bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Server className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-extrabold text-foreground uppercase tracking-wide font-sans mb-1.5">
+                  <h4 className="text-sm sm:text-base font-serif font-medium text-foreground tracking-normal mb-1.5">
                     The Challenge & Bottlenecks
                   </h4>
                   <p className="text-xs text-muted leading-relaxed font-sans">
@@ -194,11 +193,11 @@ export default function SystemsWorkspace() {
 
               {/* Architecture Decision */}
               <div className="flex gap-4">
-                <div className="w-9 h-9 rounded-lg bg-primary-glow border border-primary/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-9 h-9 rounded-sm bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
                   <Layers className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-extrabold text-foreground uppercase tracking-wide font-sans mb-1.5">
+                  <h4 className="text-sm sm:text-base font-serif font-medium text-foreground tracking-normal mb-1.5">
                     Architectural Decisions & Trade-Offs
                   </h4>
                   <p className="text-xs text-muted leading-relaxed font-sans">
@@ -209,11 +208,11 @@ export default function SystemsWorkspace() {
 
               {/* Trade-Off details */}
               <div className="flex gap-4">
-                <div className="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center flex-shrink-0">
-                  <Cpu className="w-4 h-4 text-purple-500" />
+                <div className="w-9 h-9 rounded-sm bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Cpu className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-extrabold text-foreground uppercase tracking-wide font-sans mb-1.5">
+                  <h4 className="text-sm sm:text-base font-serif font-medium text-foreground tracking-normal mb-1.5">
                     Component Evaluation & Trade-offs
                   </h4>
                   <p className="text-xs text-muted leading-relaxed font-sans">
@@ -227,11 +226,11 @@ export default function SystemsWorkspace() {
             <div className="flex flex-col gap-6">
               {/* Resiliency */}
               <div className="flex gap-4">
-                <div className="w-9 h-9 rounded-lg bg-success-glow border border-success/20 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="w-4 h-4 text-success" />
+                <div className="w-9 h-9 rounded-sm bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
+                  <ShieldCheck className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-extrabold text-foreground uppercase tracking-wide font-sans mb-1.5">
+                  <h4 className="text-sm sm:text-base font-serif font-medium text-foreground tracking-normal mb-1.5">
                     Resiliency & Failure Recovery
                   </h4>
                   <p className="text-xs text-muted leading-relaxed font-sans">
@@ -242,11 +241,11 @@ export default function SystemsWorkspace() {
 
               {/* Scaling */}
               <div className="flex gap-4">
-                <div className="w-9 h-9 rounded-lg bg-warning/10 border border-warning/20 flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-4 h-4 text-warning" />
+                <div className="w-9 h-9 rounded-sm bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-extrabold text-foreground uppercase tracking-wide font-sans mb-1.5">
+                  <h4 className="text-sm sm:text-base font-serif font-medium text-foreground tracking-normal mb-1.5">
                     Behaviour Under 100x Scale
                   </h4>
                   <p className="text-xs text-muted leading-relaxed font-sans">
@@ -257,11 +256,11 @@ export default function SystemsWorkspace() {
 
               {/* Improvements */}
               <div className="flex gap-4">
-                <div className="w-9 h-9 rounded-lg bg-slate-500/10 border border-slate-500/20 flex items-center justify-center flex-shrink-0">
-                  <RefreshCw className="w-4 h-4 text-slate-500" />
+                <div className="w-9 h-9 rounded-sm bg-primary/5 border border-primary/10 flex items-center justify-center flex-shrink-0">
+                  <RefreshCw className="w-4 h-4 text-primary" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-extrabold text-foreground uppercase tracking-wide font-sans mb-1.5">
+                  <h4 className="text-sm sm:text-base font-serif font-medium text-foreground tracking-normal mb-1.5">
                     Self-Critique: What I&apos;d Improve
                   </h4>
                   <p className="text-xs text-muted leading-relaxed font-sans">
@@ -271,7 +270,7 @@ export default function SystemsWorkspace() {
               </div>
             </div>
           </div>
-        </Card>
+        </div>
       </FadeIn>
     </div>
   );

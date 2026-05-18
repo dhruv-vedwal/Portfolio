@@ -18,15 +18,18 @@ export default function SystemsPage() {
         {/* Title panel */}
         <div className="text-left max-w-3xl">
           <FadeIn direction="up" delay={0.1}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary-glow text-xs text-primary font-semibold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/20 bg-primary-glow text-[10px] font-bold text-primary tracking-widest uppercase mb-3 rounded-sm">
               <Workflow className="w-3.5 h-3.5" />
               <span>Interactive Diagrams</span>
             </div>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground font-sans">
+            <h1 className="text-4xl sm:text-5xl font-serif font-medium tracking-normal text-foreground leading-[1.05]">
               System Architecture
+              <span className="block mt-2 font-sans text-xs uppercase tracking-[0.25em] text-primary font-bold">
+                Interactive Design Diagrams & Specifications
+              </span>
             </h1>
           </FadeIn>
 
