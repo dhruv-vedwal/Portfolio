@@ -140,28 +140,28 @@ export default function DeveloperTerminal() {
               <div className="flex flex-wrap items-center gap-2">
                 <Code2 className="w-4 h-4 text-primary flex-shrink-0" />
                 <span className="inline-block w-24 text-foreground font-bold font-mono">Languages</span>
-                <span className="text-primary font-bold font-mono">[████████████████████]</span>
+                <span className="text-primary font-bold font-mono text-[8px] xs:text-[10px] sm:text-xs tracking-tight sm:tracking-normal">[████████████████████]</span>
                 <span className="ml-2 font-bold text-foreground font-mono">100%</span>
                 <span className="text-muted/50 font-mono text-[10px] sm:text-xs ml-0 sm:ml-2">(TS / Go / Node.js)</span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <Layers className="w-4 h-4 text-primary flex-shrink-0" />
                 <span className="inline-block w-24 text-foreground font-bold font-mono">Frameworks</span>
-                <span className="text-primary font-bold font-mono">[██████████████████░░]</span>
+                <span className="text-primary font-bold font-mono text-[8px] xs:text-[10px] sm:text-xs tracking-tight sm:tracking-normal">[██████████████████░░]</span>
                 <span className="ml-2 font-bold text-foreground font-mono">90%</span>
                 <span className="text-muted/50 font-mono text-[10px] sm:text-xs ml-0 sm:ml-2">(Next.js / Express)</span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <Database className="w-4 h-4 text-primary flex-shrink-0" />
                 <span className="inline-block w-24 text-foreground font-bold font-mono">Databases</span>
-                <span className="text-primary font-bold font-mono">[██████████████████░░]</span>
+                <span className="text-primary font-bold font-mono text-[8px] xs:text-[10px] sm:text-xs tracking-tight sm:tracking-normal">[██████████████████░░]</span>
                 <span className="ml-2 font-bold text-foreground font-mono">90%</span>
                 <span className="text-muted/50 font-mono text-[10px] sm:text-xs ml-0 sm:ml-2">(PostgreSQL / Redis)</span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <Cpu className="w-4 h-4 text-primary flex-shrink-0" />
                 <span className="inline-block w-24 text-foreground font-bold font-mono">Ops / Cloud</span>
-                <span className="text-primary font-bold font-mono">[████████████████░░░░]</span>
+                <span className="text-primary font-bold font-mono text-[8px] xs:text-[10px] sm:text-xs tracking-tight sm:tracking-normal">[████████████████░░░░]</span>
                 <span className="ml-2 font-bold text-foreground font-mono">80%</span>
                 <span className="text-muted/50 font-mono text-[10px] sm:text-xs ml-0 sm:ml-2">(AWS / Docker)</span>
               </div>
@@ -412,9 +412,10 @@ export default function DeveloperTerminal() {
                 <div ref={consoleContainerRef} className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 font-mono text-xs select-text">
                   {history.map((item, idx) => (
                     <div key={idx} className="flex flex-col gap-2">
-                      <div className="flex items-center gap-2 text-foreground/80 font-bold select-none">
+                      <div className="flex items-center gap-2 text-foreground/80 font-bold select-none text-[11px] sm:text-xs">
                         <span className="text-primary font-bold">&gt;</span>
-                        <span className="text-muted/60 font-medium">visitor@dhruv.systems:~$</span>
+                        <span className="text-muted/60 font-medium hidden sm:inline">visitor@dhruv.systems:~$</span>
+                        <span className="text-muted/60 font-medium sm:hidden">visitor:~$</span>
                         <span>{item.command}</span>
                       </div>
                       <div className="pl-4 border-l border-border/40 ml-1">{item.output}</div>
@@ -428,7 +429,8 @@ export default function DeveloperTerminal() {
                   className="bg-card-elevated border-t border-border/60 px-4 py-2.5 flex items-center gap-2.5 select-none"
                 >
                   <Play className="w-3 h-3 text-primary animate-pulse" />
-                  <span className="font-mono text-xs text-muted/50">visitor@dhruv.systems:~$</span>
+                  <span className="font-mono text-xs text-muted/50 hidden sm:inline">visitor@dhruv.systems:~$</span>
+                  <span className="font-mono text-xs text-muted/50 sm:hidden">visitor:~$</span>
                   <input
                     ref={inputRef}
                     type="text"

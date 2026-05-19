@@ -66,10 +66,10 @@ export default function HeroSection() {
 
           {/* Action CTAs */}
           <FadeIn direction="up" delay={0.4} duration={0.6} className="w-full sm:w-auto">
-            <div className="flex flex-wrap gap-4 items-center w-full">
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center w-full">
               <Link
                 href="/systems"
-                className="btn-bespoke-solid"
+                className="btn-bespoke-solid w-full sm:w-auto text-center"
               >
                 <Terminal className="w-3.5 h-3.5 mr-2" />
                 <span>Explore Systems</span>
@@ -77,7 +77,7 @@ export default function HeroSection() {
 
               <Link
                 href="/resume"
-                className="btn-bespoke"
+                className="btn-bespoke w-full sm:w-auto text-center"
               >
                 <FileText className="w-3.5 h-3.5 mr-2" />
                 <span>View Timeline</span>
@@ -85,7 +85,7 @@ export default function HeroSection() {
 
               <Link
                 href="/contact"
-                className="btn-bespoke"
+                className="btn-bespoke w-full sm:w-auto text-center"
               >
                 <Send className="w-3.5 h-3.5 mr-2" />
                 <span>Get in Touch</span>

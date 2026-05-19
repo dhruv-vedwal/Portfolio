@@ -91,11 +91,11 @@ export default function HomePage() {
               Instead of static screenshots or proprietary code, explore my interactive system diagrams illustrating how I structure projects, solve key scaling problems, and handle event distribution.
             </p>
           </FadeIn>
-          <FadeIn direction="up" delay={0.4}>
-            <div className="flex flex-wrap gap-4 items-center justify-center mt-4 w-full sm:w-auto">
+          <FadeIn direction="up" delay={0.4} className="w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-center mt-4 w-full sm:w-auto">
               <Link
                 href="/systems"
-                className="btn-bespoke-solid group"
+                className="btn-bespoke-solid w-full sm:w-auto text-center justify-center group"
               >
                 <span>Explore System Designs</span>
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -103,7 +103,7 @@ export default function HomePage() {
               
               <Link
                 href="/contact"
-                className="btn-bespoke"
+                className="btn-bespoke w-full sm:w-auto text-center justify-center"
               >
                 <Send className="w-3.5 h-3.5 mr-2 text-primary" />
                 <span>Get in Touch</span>

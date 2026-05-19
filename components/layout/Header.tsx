@@ -51,13 +51,14 @@ export default function Header() {
   if (!mounted) return null;
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b flex flex-col ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-md border-border/80 shadow-lg shadow-background/5"
-          : "bg-transparent border-transparent"
-      }`}
-    >
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b flex flex-col ${
+          scrolled
+            ? "bg-background/80 backdrop-blur-md border-border/80 shadow-lg shadow-background/5"
+            : "bg-transparent border-transparent"
+        }`}
+      >
       <div className={`max-w-7xl w-full mx-auto px-6 flex items-center justify-between transition-all duration-300 ${
         scrolled ? "py-3" : "py-5"
       }`}>
@@ -136,10 +137,11 @@ export default function Header() {
           </button>
         </div>
       </div>
+    </header>
 
-      {/* Mobile Sidebar Drawer overlay backdrop */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
+    {/* Mobile Sidebar Drawer overlay backdrop (rendered outside header to prevent transform clipping context) */}
+    <AnimatePresence>
+      {mobileMenuOpen && (
           <>
             {/* Backdrop overlay */}
             <motion.div
@@ -263,6 +265,6 @@ export default function Header() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
